@@ -1,3 +1,8 @@
+@keyframes animate-fade-in-down
+{
+   0% { transform: translate(0px,-100px) rotate(0deg) ; opacity: 0;  }
+   100% { transform: translate(0px,0px) rotate(0deg) ; opacity: 1;  }
+}
 @keyframes vanish-in
 {
    0% { transform: rotate(0deg) scale(2,2) ; opacity: 0; transform-origin: 50% 50%;  }
@@ -102,4 +107,42 @@ h6, .h6
 {
    background-color: #181832;
    --background-color: rgba(24,24,50,1.00);
+}
+.fon
+{
+   text-decoration: none;
+   background-color: #FFFFFF;
+   --background-color: rgba(255,255,255,1.00);
+}
+.darktheme .fon
+{
+   background-color: #201F3B;
+   --background-color: rgba(32,31,59,1.00);
+}
+.text
+{
+   font-family: Arial;
+   font-weight: normal;
+   font-size: 13px;
+   text-decoration: none;
+   color: #0081C9;
+   --color: #0081C9;
+   background-color: transparent;
+}
+.darktheme .text
+{
+   color: #FFFFFF;
+   --color: #FFFFFF;
+}
+.icon
+{
+   text-decoration: none;
+   color: #0081C9;
+   --color: #0081C9;
+   background-color: transparent;
+}
+.darktheme .icon
+{
+   color: #FFFFFF;
+   --color: #FFFFFF;
 }
