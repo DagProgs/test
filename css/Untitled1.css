@@ -146,3 +146,17 @@ h6, .h6
    color: #FFFFFF;
    --color: #FFFFFF;
 }
+.subtextdescr
+{
+   font-family: Arial;
+   font-size: 12px;
+   text-decoration: none;
+   color: #0081C9;
+   --color: #0081C9;
+   background-color: transparent;
+}
+.darktheme .subtextdescr
+{
+   color: #FFFFFF;
+   --color: #FFFFFF;
+}
