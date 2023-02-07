@@ -1,6 +1,6 @@
 
-const staticCacheName = 'static-cache-v0';
-const dynamicCacheName = 'dynamic-cache-v0';
+const staticCacheName = 'static-cache-v1';
+const dynamicCacheName = 'dynamic-cache-v1';
 
 const staticAssets = [
     './',
@@ -18,8 +18,8 @@ const staticAssets = [
 	'./js/jquery.min.js',
 	'./js/dayruznama.js',
 	'./js/script.js.js',
-	'./js/wwb18.min.js',
-    './images/no-image.jpg'
+	'./wake-up-sound.mp3',
+    './js-alarm-clock.js'
 ];
 
 self.addEventListener('install', async event => {
