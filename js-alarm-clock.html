@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8">
+    <title>
+      Javascript-будильник
+    </title>
+    <link href="js-alarm-clock.css" rel="stylesheet">
+    <script defer src="js-alarm-clock.js"></script>
+  </head>
+  <body>
+    <!-- (A) ТЕКУЩЕЕ ВРЕМЯ -->
+    <div id="ctime">
+      <h1 class="header">ТЕКУЩЕЕ ВРЕМЯ</h1>
+      <div class="square">
+        <div class="digits" id="chr">00</div>
+        <div class="text">час</div>
+      </div>
+      <div class="square">
+        <div class="digits" id="cmin">00</div>
+        <div class="text">Мин</div>
+      </div>
+      <div class="square">
+        <div class="digits" id="csec">00</div>
+        <div class="text">Сек</div>
+      </div>
+    </div>
+
+    <!-- (B) УСТАНОВИТЬ БУДИЛЬНИК -->
+    <div id="tpick">
+      <h1 class="header">УСТАНОВИТЬ БУДИЛЬНИК</h1>
+      <div id="tpick-h" class="square"></div>
+      <div id="tpick-m" class="square"></div>
+      <div id="tpick-s" class="square"></div>
+      <input type="button" value="Установить" id="tset">
+      <input type="button" value="Сбросить" id="treset" disabled>
+    </div>
+  </body>
+</html>
