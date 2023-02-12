@@ -102,7 +102,7 @@
 .text_clock {
     white-space: nowrap;
     display: flex;
-    padding: 0 15px;
+    padding: 0 0 0 15px;
 }
 
 .text_data h2,
@@ -303,8 +303,8 @@
 
 .week-day {
     position: absolute;
-    padding: 2px 0;
-    left: 170px;
+    padding-top: 2px;
+    left: 155px;
     height: 40px;
     display: flex;
     font-size: 15px;
