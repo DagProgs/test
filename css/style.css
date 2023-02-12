@@ -1,0 +1,312 @@
+@import url('header.css');
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    overflow: hidden;
+
+}
+
+/* Header */
+.header {
+    position: relative;
+    z-index: 1;
+}
+
+.header_bg1 {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 150px;
+    background-color: #002350;
+}
+
+.header_bg2 {
+    display: flex;
+    width: 100vw;
+    height: 60px;
+    padding: 0 15px;
+}
+
+.text_ruznama {
+    display: flex;
+    align-items: center;
+    width: 100vw;
+    padding-right: 5px;
+}
+
+.text_ruznama h1 {
+    color: #fff;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.icon_loc {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    height: 60px;
+    width: 100vw;
+    padding-top: 5px;
+}
+
+.icon_loc svg {
+    display: flex;
+    margin: 0 5px;
+    width: 10px;
+    height: 10px;
+}
+
+.text_loc {
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    height: 60px;
+}
+
+.text_loc h3 {
+    color: #D3D3D3;
+    align-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 10px;
+    font-weight: normal;
+}
+
+.header_data,
+.header_clock {
+    display: flex;
+    padding: 0 15px;
+}
+
+.icon_data,
+.icon_clock {
+    display: flex;
+    align-items: center;
+    height: 40px;
+}
+
+.icon_data svg,
+.icon_clock svg {
+    display: flex;
+    width: 20px;
+    height: 20px;
+}
+
+.text_data,
+.text_clock {
+    white-space: nowrap;
+    display: flex;
+    padding: 0 15px;
+}
+
+.text_data h2,
+.text_clock h2 {
+    color: #D3D3D3;
+    align-items: center;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 12px;
+    font-weight: normal;
+    line-height: 150%;
+}
+
+.text_clock h2 {
+    font-size: 20px;
+    line-height: normal;
+}
+
+.header_compass {
+    display: flex;
+    padding-left: 10px;
+}
+
+.header_compass svg {
+    display: flex;
+    width: 40px;
+    height: 40px;
+}
+
+.header_tasbih {
+    display: flex;
+    padding-left: 22px;
+}
+
+.header_tasbih svg {
+    display: flex;
+    width: 40px;
+    height: 40px;
+}
+
+/* Main */
+.main {
+    position: relative;
+}
+
+/* Footer */
+.footer {
+    position: relative;
+}
+
+
+/* Tasbih Compass menu */
+.overlay {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #002350;
+    overflow-x: hidden;
+    transition: 0.1s;
+}
+
+.overlay-content {
+    position: relative;
+    top: 25%;
+    width: 100%;
+    text-align: center;
+    margin-top: 30px;
+    color: #fff;
+}
+
+.overlay a {
+    padding: 8px;
+    text-decoration: none;
+    font-size: 36px;
+    color: #818181;
+    display: block;
+    transition: 0.3s;
+}
+
+.overlay a:hover,
+.overlay a:focus {
+    color: #f1f1f1;
+}
+
+.overlay .closebtn {
+    position: absolute;
+    top: 20px;
+    right: 45px;
+    font-size: 60px;
+}
+
+@media screen and (max-height: 450px) {
+    .overlay a {
+        font-size: 20px
+    }
+
+    .overlay .closebtn {
+        font-size: 40px;
+        top: 15px;
+        right: 35px;
+    }
+}
+
+/* Day Ruznama */
+.dayruznama {
+    display: flex;
+    padding-top: 160px;
+    padding-bottom: 20px;
+}
+
+.dayruznama_box {
+    display: flex;
+    width: 100vw;
+    
+}
+
+.icontextdescrtime {
+    display: flex;
+    justify-content: space-between;
+    width: 100vw;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.dayruznama_icon {
+    display: flex;
+    width: 60px;
+    margin: 0 15px;
+}
+
+.textdescr {
+    display: flex;
+    flex-direction: column;
+    white-space: nowrap;
+    align-items: start;
+    justify-content: center;
+    width: 100vw;
+}
+
+.dayruznama_text {
+    display: flex;
+    align-items: center;
+}
+
+.dayruznama_text h2 {
+    text-transform: uppercase;
+    font-size: 20px;
+    color: #002350;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.dayruznama_descr {
+    display: flex;
+    font-size: 10px;
+    color: #002350;
+}
+
+.dayruznama_time {
+    display: flex;
+    padding: 0 15px;
+    align-items: center;
+    height: 50px;
+}
+
+.dayruznama_time h2 {
+    color: #002350;
+    font-size: 20px;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+.dayruznama_icon svg {
+    width: 40px;
+    height: auto;
+    fill: #002350;
+}
+
+/* Data Ru Ar */
+.text_data {
+   position: relative;
+    width: 100vw;
+    min-width: 310px;
+}
+
+.my-date {
+    display: flex;
+    width: 100vw;
+}
+
+.text_data_hijri {
+    display: flex;
+    flex-direction: column;
+}
+
+.greg-date {
+    display: flex;
+}
+
+.week-day {
+    position: absolute;
+    padding: 2px 50px;
+    right: 0;
+    height: 40px;
+    display: flex;
+    font-size: 15px;
+}
+
