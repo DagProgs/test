@@ -303,8 +303,8 @@
 
 .week-day {
     position: absolute;
-    padding: 2px 50px;
-    right: 0;
+    padding: 2px 160px;
+    .right: 0;
     height: 40px;
     display: flex;
     font-size: 15px;
