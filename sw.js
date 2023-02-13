@@ -1,8 +1,7 @@
-const staticCacheName = 's-app-v3'
-const dynamicCacheName = 'd-app-v3'
+const staticCacheName = 's-app-v4'
+const dynamicCacheName = 'd-app-v4'
 
 const assetUrls = [
-	'/',
     'index.html',
     'offline.html',
 	'/css/font-awesome.min.css',
