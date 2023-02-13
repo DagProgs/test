@@ -1,21 +1,22 @@
-const staticCacheName = 's-app-v1'
-const dynamicCacheName = 'd-app-v1'
+const staticCacheName = 's-app-v2'
+const dynamicCacheName = 'd-app-v2'
 
 const assetUrls = [
-    'index.html',
-    'offline.html',
-	'/css/font-awesome.min.css',
-	'/css/index.css',
-	'/css/RuznamaKurakh_end.css',
-    '/js/app.js',
-    '/js/main.js',
-	'/js/jquery.hijri.date.min.js',
-	'/js/jquery-3.6.0.min.js',
-	'/js/jquery-ui.min.js',
-	'/js/dayruznama.js',
-	'/js/script.js.js',
-	'/js/wwb18.min.js',
-    '/images/no-image.jpg'
+	'./',
+    './index.html',
+    './offline.html',
+	'./css/font-awesome.min.css',
+	'./css/index.css',
+	'./css/RuznamaKurakh_end.css',
+    './js/app.js',
+    './js/main.js',
+	'./js/jquery.hijri.date.min.js',
+	'./js/jquery-3.6.0.min.js',
+	'./js/jquery-ui.min.js',
+	'./js/dayruznama.js',
+	'./js/script.js.js',
+	'./js/wwb18.min.js',
+    './images/no-image.jpg'
 ]
 
 self.addEventListener('install', async event => {
