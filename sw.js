@@ -1,10 +1,9 @@
-const staticCacheName = 'static-kurahruznama-v8'
-const dynamicCacheName = 'dynamic-kurahruznama-v8'
+const staticCacheName = 'static-kurahruznama-v9'
+const dynamicCacheName = 'dynamic-kurahruznama-v9'
 
 const staticAssets = [
-	'./',
-    './index.html',
-    './offline.html',
+    'index.html',
+    'offline.html',
 	'./css/font-awesome.min.css',
 	'./css/index.css',
 	'./css/RuznamaKurakh_end.css',
