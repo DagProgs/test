@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <script src="js/db/ruznama_k.db"></script>
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.hijri.date.min.js"></script>
+    <link rel="stylesheet" href="css/style.css">
+    <title>Рузнама</title>
+</head>
+
+<body>
+    <div class="wrapper theme">
+        <header class="header">
+            <div class="container1">
+
+                <!-- Box 1 -->
+                <div class="box1">
+
+                    <div class="icondata_subtext">
+                        
+                        <div class="ru_ar">
+                            <h2 id="my-date-ru">Неделя. Месяц. Год. (ru)</h2>
+                            <h2 class="my-date-ar">Месяц. Год. (ar)</h2>
+                        </div>
+                    </div>
+                    <div class="iconclock_subtext">
+                        
+                        <h2 id="my-clock">--:--:--</h2>
+                        <div class="theme_bt">
+                            <div class="btnicon"></div>
+                        </div>
+                    </div>
+
+                </div>
+                <!-- Box 2 -->
+                <div class="box2" id="navbar">
+
+                    <div class="text_subtext">
+                        <h1>Рузнама</h1>
+                        <div class="icon_subtext">
+                            <?xml version="1.0" encoding="utf-8"?>
+<svg width="154px" height="195px" viewBox="0 0 154 195" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+  <g id="Group">
+    <path d="M0 77C0 34.4741 34.4741 0 77 0C119.526 0 154 34.4741 154 77C154 119.526 119.526 195 77 195C34.4741 195 0 119.526 0 77Z" id="Oval" fill="#6D8DDD" fill-rule="evenodd" stroke="none" />
+    <path d="M23 77C23 47.1766 47.1766 23 77 23C106.823 23 131 47.1766 131 77C131 106.823 106.823 131 77 131C47.1766 131 23 106.823 23 77Z" id="Oval-2" fill="#FFFFFF" fill-rule="evenodd" stroke="none" />
+  </g>
+</svg>
+                            <h3>Курахский район</h3>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+        <div class="main">
+
+            <div class="container2">
+
+                <div class="box3">
+                    <div class="icon_prayertimes">
+                        <svg></svg>
+                    </div>
+                    <div class="name_descr">
+                        <h2>Фаджр</h2>
+                        <h4>Время утреннего намаза</h4>
+                        <h2 id="fajrtime">--:--:--</h2>
+                    </div>
+                </div>
+                <div class="box3">
+                    <div class="icon_prayertimes">
+                        <svg></svg>
+                    </div>
+                    <div class="name_descr">
+                        <h2>Шурук</h2>
+                        <h4>Восход солнца</h4>
+                        <h2 id="shuruktime">--:--:--</h2>
+                    </div>
+                </div>
+                <div class="box3">
+                    <div class="icon_prayertimes">
+                        <svg></svg>
+                    </div>
+                    <div class="name_descr">
+                        <h2>Зухр</h2>
+                        <h4>Время полуденного намаза</h4>
+                        <h2 id="zuhrtime">--:--:--</h2>
+                    </div>
+                </div>
+                <div class="box3">
+                    <div class="icon_prayertimes">
+                        <svg></svg>
+                    </div>
+                    <div class="name_descr">
+                        <h2>Аср</h2>
+                        <h4>Время предвечернего намаза</h4>
+                        <h2 id="asrtime">--:--:--</h2>
+                    </div>
+                </div>
+                <div class="box3">
+                    <div class="icon_prayertimes">
+                        <svg></svg>
+                    </div>
+                    <div class="name_descr">
+                        <h2>Магриб</h2>
+                        <h4>Время вечернего намаза</h4>
+                        <h2 id="magribtime">--:--:--</h2>
+                    </div>
+                </div>
+                <div class="box3">
+                    <div class="icon_prayertimes">
+                        <svg></svg>
+                    </div>
+                    <div class="name_descr">
+                        <h2>Иша</h2>
+                        <h4>Время ночного намаза</h4>
+                        <h2 id="ishatime">--:--:--</h2>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="cintainer3"></div>
+
+        </div>
+    </div>
+
+    <!-- RU -->
+    <script>
+        var months = new Array(13);
+        months[1] = "Января";
+        months[2] = "Февраля";
+        months[3] = "Марта";
+        months[4] = "Апреля";
+        months[5] = "Мая";
+        months[6] = "Июня";
+        months[7] = "Июля";
+        months[8] = "Августа";
+        months[9] = "Сентября";
+        months[10] = "Октября";
+        months[11] = "Ноября";
+        months[12] = "Декабря";
+
+        var time = new Date();
+        var thismonth = months[time.getMonth() + 1];
+        var date = time.getDate();
+        var thisyear = time.getFullYear();
+        var day = time.getDay() + 1;
+
+        if (date < 10) date = '0' + date;
+
+        if (thisyear < 2000)
+            thisyear = thisyear + 1900;
+        if (day == 1) DayofWeek = "Воскресенье";
+        if (day == 2) DayofWeek = "Понедельник";
+        if (day == 3) DayofWeek = "Вторник";
+        if (day == 4) DayofWeek = "Среда";
+        if (day == 5) DayofWeek = "Четверг";
+        if (day == 6) DayofWeek = "Пятница";
+        if (day == 7) DayofWeek = "Суббота";
+
+        document.getElementById("my-date-ru").innerHTML = (DayofWeek + " " + " | " + date + " " + thismonth + " " + thisyear + " " + "г");
+
+    </script>
+
+    <!-- AR -->
+    <script>
+        $('.my-date-ar').hijriDate({
+            showGregDate: false,
+            showWeekDay: false,
+            separator: '',
+            weekDayLang: 'ru',
+            gregLang: 'ru',
+            hijriLang: 'ru',
+            correction: +0
+        });
+
+    </script>
+
+    <!-- Clock -->
+    <script>
+        function currentTime() {
+            var date = new Date();
+            var hour = date.getHours();
+            var min = date.getMinutes();
+            var sec = date.getSeconds();
+
+            hour = updateTime(hour);
+            min = updateTime(min);
+            sec = updateTime(sec);
+            document.getElementById("my-clock").innerText = hour + ":" + min + ":" + sec + " "
+            var t = setTimeout(currentTime, 1000);
+        }
+
+        function updateTime(k) {
+            if (k < 10) {
+                return "0" + k;
+            }
+            else {
+                return k;
+            }
+        }
+
+        currentTime();
+    </script>
+
+    <script src="js/dayruznama.js"></script>
+    <script src="js/darklight.js"></script>
+    <script src="js/navbar.js"></script>
+</body>
+
+</html>
