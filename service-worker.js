@@ -1,10 +1,11 @@
-var cacheName = 'secondVersion';
+var cacheName = 'secondVersion12';
 
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(cacheName)
       .then(cache => cache.addAll([
-        './cat.jpg'
+        './cat.jpg',
+		'./dog.jpg'
       ]))
   );
 });
