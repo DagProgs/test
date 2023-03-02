@@ -1,4 +1,4 @@
-const cacheName = ‘firstVersion';
+var cacheName = 'secondVersion';
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -7,6 +7,12 @@ self.addEventListener('install', event => {
         './dog.jpg'
       ]))
   );
+});
+
+self.addEventListener('message', function (event) {
+  if (event.data.action === 'skipWaiting') {
+    self.skipWaiting();
+  }
 });
 
 self.addEventListener('fetch', function (event) {
@@ -19,12 +25,4 @@ self.addEventListener('fetch', function (event) {
         return fetch(event.request);
       })
   );
-});
-
-
-
-self.addEventListener('message', function (event) {
-  if (event.data.action === 'skipWaiting') {
-    self.skipWaiting();
-  }
 });
