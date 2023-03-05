@@ -6,8 +6,8 @@
     "background_color": "#5a0fc8",
     "display": "standalone",
     "orientation": "any",
-    "scope": "/",
-    "start_url": "/",
+    "scope": "https://dagprogs.github.io/test/",
+    "start_url": "https://dagprogs.github.io/test/",
     "icons": [
         {
             "src": "icons/icon_192.png",
