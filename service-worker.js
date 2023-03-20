@@ -1,4 +1,4 @@
-var cacheName = 'secondVersion5';
+var cacheName = 'secondVersion6';
 
 self.addEventListener('install', event => {
   event.waitUntil(
@@ -30,3 +30,42 @@ self.addEventListener('fetch', function (event) {
       })
   );
 });
+
+
+// вызов модального окна
+const askUserToUpdate = reg => {
+  return Modal.confirm({
+    onOk: async () => {
+      // вешаем обработчик изменения состояния
+      navigator.serviceWorker.addEventListener('controllerchange', () => {
+        window.location.reload();
+      });
+
+      // пропускаем ожидание 
+      if (reg && reg.waiting) {
+        reg.waiting.postMessage({ type: 'SKIP_WAITING' });
+      }
+    },
+
+    onCancel: () => {
+      Modal.destroyAll();
+    },
+    icon: null,
+    title: 'Хорошие новости! ? ',
+    content:
+      'Мы только что обновили версию приложения! Чтобы получить обновления, нажмите на кнопку ниже (страница перезагрузится)',
+    cancelText: 'Не обновлять',
+    okText: 'Обновить'
+  });
+};
+
+// проверка регистрации
+const registerValidSW = (swUrl, config) => {
+  navigator.serviceWorker
+    .register(swUrl)
+    .then(registration => {
+      if (registration.waiting) {
+        // оброботчик SW в ожидании
+        askUserToUpdate(registration);
+      }
+    ...
