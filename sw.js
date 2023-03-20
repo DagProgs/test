@@ -1,4 +1,4 @@
-const cacheName = 'latestNews-v1';
+const cacheName = 'latestNews-v2';
 const offlineUrl = 'offline-page.html';
 
 // Cache our known resources during install
