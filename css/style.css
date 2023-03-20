@@ -1,0 +1,114 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+.wrapper {
+    overflow: hidden;
+}
+
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    font-size: 25px;
+    text-align: center;
+    color: #000;
+}
+
+.text {
+    text-transform: uppercase;
+    display: flex;
+    height: 100vh;
+	justify-content: center;
+    align-items: center;
+    animation: blink 3.5s linear forwards;
+    transition: 3s;
+    text-shadow: 0 0 30px rgba(0, 0, 0, .5);
+}
+
+@keyframes blink {
+    0% {
+        color: #bc40e2;
+        opacity: 0;
+    }
+
+    100% {
+        color: #ecf0f3;
+        opacity: 1;
+    }
+}
+
+.content {
+    background: linear-gradient(#3262ff, #e91e62);
+    height: 100vh;
+}
+
+.decoration {
+    position: fixed;
+    top: -20px;
+    left: 0;
+    height: 130px;
+    width: 100vw;
+    background: url(../img/hiasan.png);
+    background-size: 200px;
+    background-repeat: repeat-x;
+    animation: animateDecoration 15s linear infinite;
+	z-index: 5;
+}
+
+@keyframes animateDecoration {
+    0% {
+        background-position: 10px;
+    }
+
+    50% {
+        background-position: 300px;
+    }
+
+    100% {
+        background-position: 10px;
+    }
+}
+
+.main {
+    position: absolute;
+    top: 70vh;
+    background: linear-gradient(#3262ff, #e91e62);
+}
+
+.container {
+    border-top: 1px solid #fff;
+    width: 100vw;
+    height: 160px;
+    color: #fff;
+}
+
+.container h2 {
+    font-size: 25px;
+}
+
+.container h3 {
+    font-size: 10px;
+    color: #e89cff;
+    font-weight: normal;
+}
+
+.box {}
+
+.box svg {
+    width: 50px;
+    height: 50px;
+    fill: #fff;
+}
+
+.prayer-times-day {
+    padding-bottom: 10px;
+    line-height: 1.5;
+}
+
+p {
+    font-size: 13px;
+    padding-bottom: 10px;
+    color: #fff;
+    padding-top: 10px;
+}
