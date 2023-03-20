@@ -1,4 +1,4 @@
-const cacheName = 'latestNews-v2';
+const cacheName = 'latestNews-v3';
 const offlineUrl = 'offline-page.html';
 
 // Cache our known resources during install
@@ -9,6 +9,7 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(cacheName)
     .then(cache => cache.addAll([
+	'./index.html',
       './js/main.js',
       './images/newspaper.svg',
       './css/site.css',
