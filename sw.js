@@ -1,13 +1,9 @@
 //remember to increment the version # when you update the service worker
-const version = "3.00",
+const version = "4.00",
     preCache = "PRECACHE-" + version,
     cacheList = [ "/" ];
 
-/*
-create a list (array) of urls to pre-cache for your application
-*/
 
-/*  Service Worker Event Handlers */
 
 self.addEventListener("install", function (event) {
 
@@ -63,8 +59,7 @@ self.addEventListener( "fetch", function ( event ) {
 
         fetch( event.request )
 
-        /* check the cache first, then hit the network */
-        /*
+        
                 caches.match( event.request )
                 .then( function ( response ) {
 
@@ -74,7 +69,7 @@ self.addEventListener( "fetch", function ( event ) {
 
                     return fetch( event.request );
                 } )
-        */
+        
     );
 
 } );
