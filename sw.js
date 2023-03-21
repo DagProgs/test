@@ -1,5 +1,5 @@
 //remember to increment the version # when you update the service worker
-const version = "2.00",
+const version = "3.00",
     preCache = "PRECACHE-" + version,
     cacheList = [ "/" ];
 
@@ -9,48 +9,53 @@ create a list (array) of urls to pre-cache for your application
 
 /*  Service Worker Event Handlers */
 
-self.addEventListener( "install", function ( event ) {
+self.addEventListener("install", function (event) {
 
-    console.log( "Installing the service worker!" );
-
+    //only use if you are 100% sure it wont break your application UX
     self.skipWaiting();
+    
+    event.waitUntil(
+      //pre-cache
+      //on install as a dependency
+      caches.open(preCacheName).then(function (cache) {
+        //won't delay install completing and won't cause installation to
+        //fail if caching fails.
+        //the difference is as dependency returns a Promise, the
+        //no dependency does not.
+        //on install not as dependency (lazy-load)
+        console.log("caches add as no-dependency");
+  
+        cache.addAll(precache_no_dependency_urls);
+  
+        console.log("caches add as dependency");
+  
+        return cache.addAll(precache_urls);
+      })
+    );
+  });
+
+self.addEventListener("activate", function (event) {
 
     event.waitUntil(
+  
+      caches.keys().then(cacheNames => {
+        cacheNames.forEach(value => {
 
-        caches.open( preCache )
-        .then( cache => {
+          if (value.indexOf(version) < 0) {
+            caches.delete(value);
+          }
 
-            cache.addAll( cacheList );
+        });
+  
+        console.log("service worker activated");
+  
+        return;
 
-        } )
-
+      })
+      
     );
-
-} );
-
-self.addEventListener( "activate", function ( event ) {
-
-    event.waitUntil(
-
-        //wholesale purge of previous version caches
-        caches.keys().then( cacheNames => {
-            cacheNames.forEach( value => {
-
-                if ( value.indexOf( version ) < 0 ) {
-                    caches.delete( value );
-                }
-
-            } );
-
-            console.log( "service worker activated" );
-
-            return;
-
-        } )
-
-    );
-
-} );
+  
+  });
 
 self.addEventListener( "fetch", function ( event ) {
 
