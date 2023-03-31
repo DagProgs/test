@@ -7,10 +7,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <title>Document</title>
+    <style>
+        img {
+            display: block;
+            width: 50px;
+        }
+    </style>
 </head>
 
 <body>
-    <button id='answer-example-share-button'>Share!</button>
+    <button >Share!</button>
+    <a id='answer-example-share-button'>
+    <img src="share.svg" alt="">
+    </a>
     <script>
         $('#answer-example-share-button').on('click', () => {
             if (navigator.share) {
