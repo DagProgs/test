@@ -7,8 +7,7 @@
     <h1>Получение уведомлений о намазе</h1>
 
     <script>
-        // Загрузка данных из файла prayer-times.json
-fetch('prayer-times.json')
+        fetch('prayer-times.json')
   .then(response => response.json())
   .then(data => {
     const dayOfMonth = '3'; // Укажите свой день
@@ -20,7 +19,7 @@ fetch('prayer-times.json')
       const currentTime = new Date();
       const currentMins = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-      // Пройдемся по всем намазам на выбранный день и проверим, если время наступило
+      // Проход по всем намазам на выбранный день и проверка, если время наступило
       for (const prayer in prayerTimesForDay) {
         const [hours, minutes] = prayerTimesForDay[prayer];
         const prayerTimeMins = hours * 60 + minutes;
@@ -39,6 +38,7 @@ fetch('prayer-times.json')
   .catch(error => {
     console.error('Ошибка при загрузке данных:', error);
   });
+
 
     </script>
 </body>
