@@ -1,0 +1,12 @@
+{
+    "name": "bahek2462774/jquery.embed-vk-gallery",
+    "authors": [
+        {
+            "name": "DagProgs",
+            "email": ""
+        }
+    ],
+    "require": {
+        "guzzlehttp/guzzle": "^6.3"
+    }
+}

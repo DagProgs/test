@@ -1,0 +1,8 @@
+@import "./box/reset";
+body {
+    font-family: Verdana, Geneva, Tahoma, sans-serif
+}
+@import "./box/header";
+@import "./box/main";
+
+@import "./box/slimbox";

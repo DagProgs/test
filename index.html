@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="css/style.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <div class="header_box">
+            <h1>Header</h1>
+        </div>
+    </header>
+    <main>
+        <div class="main_box">
+            <div class="vk" data-link="https://vk.com/album-223669523_302265466"></div>
+            <!--<div class="vk" data-shuffle="1" data-link="https://vk.com/album-223669523_302265466" style="width: 100vw;" data-width="150"></div>-->
+        </div>
+    </main>
+
+    <script src="js/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+    <script src="js/jquery.slimbox2.js"></script>
+    <script src="js/jquery.embedvkgallery.js"></script>
+    <script>
+        (function ($) {
+            $(function () {
+                $('.vk').EmbedVkGallery();
+            });
+        })(jQuery);
+    </script>
+</body>
+
+</html>
