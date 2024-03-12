@@ -1,11 +1,9 @@
 {
-	"manifest_version": 17,
   "lang": "ru",
   "dir": "ltr",
   "name": "test",
   "short_name": "test",
   "description": "test",
-  "version": "2.3.4",
   "categories": ["test", "test", "test"],
   "icons": [
 	{
@@ -49,7 +47,9 @@
       "type": "image/png"
     }
   ],
+  "scope": "https://dagprogs.github.io/test/",
   "id": "ruznamakurah",
+  "start_url": "https://dagprogs.github.io/test/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#252e49",
