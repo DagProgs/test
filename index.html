@@ -12,16 +12,12 @@
         integrity="sha384-uONtBTCBzHKF84F6XvyC8S0gL8HTkAPeCyBNvfLfsqHh+Kd6s/kaS4BdmNQ5ktp1"
         crossorigin="anonymous"></script>
 		<script>
-        // Проверяем user-agent на наличие iPhone
-        if (navigator.userAgent.match(/iPhone/i)) {
-            // Перенаправляем пользователя на страницу с инструкциями
-            window.location.href = 'instr.html';
-        } else {
-            // Можно добавить else для случая, если не iPhone
-            // Перезагрузка страницы без кэширования
-            location.reload(true);
-        }
-    </script>
+    // Проверяем user-agent на наличие iPhone
+    if (navigator.userAgent.match(/iPhone/i)) {
+      // Перенаправляем пользователя на страницу с инструкциями
+      window.location.href = 'instr.html';
+    }
+  </script>
 </head>
 
 <body>
