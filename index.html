@@ -11,6 +11,17 @@
     <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.8/pwacompat.min.js"
         integrity="sha384-uONtBTCBzHKF84F6XvyC8S0gL8HTkAPeCyBNvfLfsqHh+Kd6s/kaS4BdmNQ5ktp1"
         crossorigin="anonymous"></script>
+		<script>
+        // Проверяем user-agent на наличие iPhone
+        if (navigator.userAgent.match(/iPhone/i)) {
+            // Перенаправляем пользователя на страницу с инструкциями
+            window.location.href = 'instr.html';
+        } else {
+            // Можно добавить else для случая, если не iPhone
+            // Перезагрузка страницы без кэширования
+            location.reload(true);
+        }
+    </script>
 </head>
 
 <body>
@@ -215,13 +226,6 @@
         wb.register();
     }
 
-</script>
-<script>
-if (navigator.userAgent.match(/iPhone/i)) {
-    window.location.href = 'instr.html';
-} else {
-    location.reload(true); // перезагрузить страницу без кэширования
-}
 </script>
     <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
