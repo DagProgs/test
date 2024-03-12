@@ -1,5 +1,5 @@
 const CACHE_NAME = 'myPWA-cache-v1';
-const offlinePage = '/offline.html';
+const offlinePage = 'offline.html';
 
 self.addEventListener('install', event => {
   self.skipWaiting();

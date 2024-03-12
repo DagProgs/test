@@ -8,13 +8,13 @@
 </head>
 <body>
     
-    <h1>Test 2</h1>
+    <h1>Test 3</h1>
 
 
     <script>
         if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
-    navigator.serviceWorker.register('/service-worker.js').then(registration => {
+    navigator.serviceWorker.register('service-worker.js').then(registration => {
       registration.addEventListener('updatefound', () => {
         const newWorker = registration.installing;
         newWorker.addEventListener('statechange', () => {
