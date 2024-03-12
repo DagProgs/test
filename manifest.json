@@ -49,7 +49,6 @@
       "type": "image/png"
     }
   ],
-  "scope": "https://dagprogs.github.io/test/index.html",
   "id": "ruznamakurah",
   "start_url": "https://dagprogs.github.io/test/index.html",
   "display": "standalone",
