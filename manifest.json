@@ -2,11 +2,11 @@
 	"manifest_version": 17,
   "lang": "ru",
   "dir": "ltr",
-  "name": "Курахский район",
-  "short_name": "Рузнама Курахский р-он",
-  "description": "Времена Намазов для Курахского района",
+  "name": "test",
+  "short_name": "test",
+  "description": "test",
   "version": "2.3.4",
-  "categories": ["ruznama", "religion", "prayer"],
+  "categories": ["test", "test", "test"],
   "icons": [
 	{
       "src": "assets/icons/icon-72x72.png",
@@ -49,9 +49,9 @@
       "type": "image/png"
     }
   ],
-  "scope": "https://dagprogs.github.io/ruznamaKurah/",
+  "scope": "https://dagprogs.github.io/test/",
   "id": "ruznamakurah",
-  "start_url": "https://dagprogs.github.io/ruznamaKurah/",
+  "start_url": "https://dagprogs.github.io/test/",
   "display": "standalone",
   "orientation": "portrait",
   "theme_color": "#252e49",

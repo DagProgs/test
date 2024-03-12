@@ -70,7 +70,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "manifest.json",
-    "revision": "b37f9173cfb735ded5d7235af57905d2"
+    "revision": "1b106a3057f94735ee2b7a445eec5f6d"
   },
   {
     "url": "img/hiasan.png",
