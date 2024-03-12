@@ -197,8 +197,11 @@
 	<script>
     // Проверяем user-agent на наличие iPhone
     if (navigator.userAgent.match(/iPhone/i)) {
-      // Перенаправляем пользователя на страницу с инструкциями
-      window.location.href = 'instr.html';
+      // Перенаправляем пользователя на страницу с инструкциями для iPhone
+      window.location.href = 'iphone.html';
+    } else if (navigator.userAgent.match(/Android/i)) {
+      // Перенаправляем пользователя на страницу с инструкциями для Android
+      window.location.href = 'android.html';
     }
   </script>
     <script type="module">
