@@ -1,11 +1,13 @@
 {
-    "name": "Название вашего приложения",
-    "short_name": "Краткое название",
-    "start_url": "https://dagprogs.github.io/test/",
-    "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#007bff",
-    "icons": [
+	"manifest_version": 3,
+  "lang": "ru",
+  "dir": "ltr",
+  "name": "Курахский район",
+  "short_name": "Курахский р-он",
+  "description": "Курахский район",
+  "version": "1.1.1",
+  "categories": ["kurah", "kurakh"],
+  "icons": [
 	{
       "src": "assets/icons/icon-72x72.png",
       "sizes": "72x72",
@@ -46,6 +48,13 @@
       "sizes": "512x512",
       "type": "image/png"
     }
-  ]
-  }
-  
+  ],
+  "scope": "https://dagprogs.github.io/test/",
+  "id": "ruznamakurah",
+  "start_url": "https://dagprogs.github.io/test/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "theme_color": "#a52a2a",
+  "background_color": "#ffffff"
+
+}
