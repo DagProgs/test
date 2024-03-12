@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Инструкция по установке PWA на iPhone</title>
+  <style>
+    /* CSS стили для страницы инструкции */
+    /* Можно красиво оформить вашу страницу */
+  </style>
+</head>
+<body>
+  <h1>Инструкция по установке PWA на iPhone</h1>
+  <img src="instr.jpeg" alt="Иллюстрация по установке">
+  <p>Для установки PWA на iPhone, выполните следующие шаги...</p>
+
+  <script>
+    // Проверяем user-agent на наличие iPhone
+    if (navigator.userAgent.match(/iPhone/i)) {
+      // Перенаправляем пользователя на страницу с инструкциями
+      window.location.href = 'instr.html';
+    }
+  </script>
+</body>
+</html>
