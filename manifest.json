@@ -1,7 +1,7 @@
 {
     "name": "Название вашего приложения",
     "short_name": "Краткое название",
-    "start_url": "/",
+    "start_url": "https://dagprogs.github.io/test/",
     "display": "standalone",
     "background_color": "#ffffff",
     "theme_color": "#007bff",
