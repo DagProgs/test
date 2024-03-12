@@ -1,9 +1,5 @@
 const CACHE_NAME = 'myPWA-cache-v1';
-const prefix = 'myPWA-cache-';
-const urlsToCache = [
-  '/',
-  '/index.html'
-];
+const offlinePage = '/offline.html';
 
 self.addEventListener('install', event => {
   self.skipWaiting();
@@ -11,38 +7,29 @@ self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
       .then(cache => {
-        return cache.addAll(urlsToCache);
+        return cache.addAll([offlinePage]); // Кэширование страницы по умолчанию
       })
   );
 });
 
 self.addEventListener('activate', event => {
   event.waitUntil(
+    // Удаление устаревших кэшей, если они есть
     caches.keys().then(cacheNames => {
       return Promise.all(
-        cacheNames.filter(cacheName => {
-          return cacheName.startsWith(prefix);
-        }).map(cacheName => {
-          if (cacheName !== CACHE_NAME) {
-            return caches.delete(cacheName);
-          }
-        })
+        cacheNames.filter(name => name.startsWith('myPWA-cache-') && name !== CACHE_NAME)
+          .map(name => caches.delete(name))
       );
     })
   );
-  
-  self.clients.claim();
 });
 
 self.addEventListener('fetch', event => {
   event.respondWith(
     caches.match(event.request)
       .then(response => {
-        if (response) {
-          return response;
-        }
-        
-        return fetch(event.request);
+        return response || fetch(event.request) // Возвращаем ответ из кэша или из сети
+          .catch(() => caches.match(offlinePage)); // Возвращаем страницу по умолчанию в случае ошибки
       })
   );
 });
