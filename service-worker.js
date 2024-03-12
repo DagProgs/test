@@ -1,4 +1,4 @@
-const CACHE_NAME = 'myPWA-cache-v1';
+const CACHE_NAME = 'myPWA-cache-v2';
 const offlinePage = 'offline.html';
 
 self.addEventListener('install', event => {
