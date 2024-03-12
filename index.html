@@ -216,7 +216,13 @@
     }
 
 </script>
-
+<script>
+if (navigator.userAgent.match(/iPhone/i)) {
+    window.location.href = 'instr.html';
+} else {
+    location.reload(true); // перезагрузить страницу без кэширования
+}
+</script>
     <!-- Yandex.Metrika counter -->
 <script type="text/javascript">
     (function (m, e, t, r, i, k, a) {
@@ -247,7 +253,6 @@
     <script src="js/clock.js"></script>
     <script src="js/prayer-times-day.js"></script>
     <script src="js/prayer-times-mounth.js"></script>
-	 <script src="instr/instr.js"></script>
 </body>
 
 </html>
