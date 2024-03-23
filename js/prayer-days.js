@@ -1,3 +1,4 @@
+// Загрузка данных из файла prayer-times.json
 fetch('js/json/prayer-times.json')
 .then(response => response.json())
 .then(data => {
@@ -6,26 +7,37 @@ fetch('js/json/prayer-times.json')
     const currentDay = currentDate.getDate();
     const todayPrayerTimes = data[currentMonth][currentDay];
 
-    function scheduleNotification(time, message) {
-        const now = new Date();
-        const timeParts = time.split(":");
-        const scheduleTime = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(timeParts[0]), parseInt(timeParts[1]), 0);
+    const { Notification } = window;
 
-        const diff = scheduleTime.getTime() - now.getTime();
-        if (diff > 0) {
-            setTimeout(() => {
-                const notification = new Notification(message);
-            }, diff);
+    function checkPrayerTime() {
+        const currentTime = new Date();
+        const currentHour = currentTime.getHours();
+        const currentMinute = currentTime.getMinutes();
+
+        for (const time in todayPrayerTimes) {
+            const hour = todayPrayerTimes[time][0];
+            const minute = todayPrayerTimes[time][1];
+
+            if (currentHour === hour && currentMinute === minute) {
+                const prayerName = time;
+                const prayerBody = `Сейчас наступил ${prayerName} намаз`;
+
+                // Отправка локального push уведомления
+                if (Notification.permission === 'granted') {
+                    new Notification("Напоминание о намазе", { body: prayerBody });
+                }
+            }
         }
     }
 
-    // Определение времени и текста уведомлений для каждого намаза
-    scheduleNotification(todayPrayerTimes.Fajr, "Время для намаза Фаджр");
-    scheduleNotification(todayPrayerTimes.Sunrise, "Время для намаза Шурук");
-    scheduleNotification(todayPrayerTimes.Dhuhr, "Время для намаза Зухр");
-    scheduleNotification(todayPrayerTimes.Asr, "Время для намаза Аср");
-    scheduleNotification(todayPrayerTimes.Maghrib, "Время для намаза Магриб");
-    scheduleNotification(todayPrayerTimes.Isha, "Время для намаза Иша");
+    // Запрос разрешения для отправки уведомлений
+    Notification.requestPermission()
+    .then(permission => {
+        if (permission === 'granted') {
+            // Вызов функции checkPrayerTime каждую минуту для проверки наступления времени намаза
+            setInterval(checkPrayerTime, 60000); // каждую минуту (60000 миллисекунд)
+        }
+    });
 
 })
 .catch(error => console.error('Ошибка загрузки данных:', error));
