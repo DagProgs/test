@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="manifest" href="manifest.json" />
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="requestNotificationPermission()">Разрешить уведомления</button>
+    <script>
+        // Функция запроса разрешения на уведомления
+        async function requestNotificationPermission() {
+            if (Notification.permission !== 'granted') {
+                const permission = await Notification.requestPermission();
+                if (permission === 'granted') {
+                    console.log('Разрешение на уведомления получено');
+                }
+            }
+        }
+    </script>
+    <script>
+        // Функция для загрузки данных из JSON файла
+async function loadPrayerTimes() {
+    const response = await fetch('prayer-times.json');
+    const data = await response.json();
+    return data;
+}
+
+// Проверка времени намаза и отправка уведомления при необходимости
+async function checkPrayerTimes() {
+    const prayerTimes = await loadPrayerTimes();
+    
+    const currentDate = new Date();
+    const currentDay = currentDate.getDate();
+    const currentMonth = currentDate.getMonth() + 1;
+    
+    if (prayerTimes[currentMonth] && prayerTimes[currentMonth][currentDay]) {
+        for (const prayer in prayerTimes[currentMonth][currentDay]) {
+            const prayerTime = new Date(currentDate.getFullYear(), currentDate.getMonth(), currentDay, prayerTimes[currentMonth][currentDay][prayer][0], prayerTimes[currentMonth][currentDay][prayer][1]);
+            
+            if (currentDate.getTime() >= prayerTime.getTime() && currentDate.getTime() < prayerTime.getTime() + 60000) {
+                showNotification("Намаз", "Пришло время для " + prayer);
+            }
+        }
+    }
+}
+
+// Установка интервала для проверки времени намазов
+setInterval(checkPrayerTimes, 60000);
+
+    </script>
+</body>
+</html>
