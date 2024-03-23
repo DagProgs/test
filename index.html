@@ -16,7 +16,7 @@
 </head>
 
 <body>
-
+<button id="enableNotificationsBtn">Разрешить уведомления</button>
     <header>
         <div class="header_container">
             <div class="header_container_name_loc happy">
@@ -185,6 +185,22 @@
         </div>
     </main>
 
+<script>
+    const enableNotificationsBtn = document.getElementById('enableNotificationsBtn');
+
+    enableNotificationsBtn.addEventListener('click', async () => {
+      try {
+        const permission = await Notification.requestPermission();
+        if (permission === 'granted') {
+          console.log('Уведомления разрешены');
+        } else {
+          console.log('Уведомления не разрешены');
+        }
+      } catch (error) {
+        console.error('Ошибка при запросе разрешения на уведомления:', error);
+      }
+    });
+  </script>
     <div id="myModal" class="modal">
         <div class="modal-content">
             <span class="close">&times;</span>
