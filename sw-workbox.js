@@ -22,7 +22,7 @@ workbox.core.clientsClaim();
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
-    "revision": "72583c0cffce78f0daf32e7086d856c0"
+    "revision": "92db7ffb4a05a5cf24c8fa632ba05642"
   },
   {
     "url": "css/style.css",
@@ -54,7 +54,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "js/prayer-days.js",
-    "revision": "24da61367bcc06462014ea401132ddb4"
+    "revision": "234c62d65d89b30e73fa9816a47d822f"
   },
   {
     "url": "js/prayer-times-mounths.js",
