@@ -54,7 +54,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "js/prayer-days.js",
-    "revision": "b5a26ca2b96b83f1ec91e88faa92ccd4"
+    "revision": "c06291fd6ebd0b373c89139a3cace202"
   },
   {
     "url": "js/prayer-times-mounths.js",
@@ -67,6 +67,10 @@ workbox.precaching.precacheAndRoute([
   {
     "url": "img/ramadan.png",
     "revision": "68a642d1aa582d801540584db10abe19"
+  },
+  {
+    "url": "assets/icons/badge.png",
+    "revision": "76185d94edc093def9f7d8f6098072e3"
   },
   {
     "url": "assets/icons/icon-128x128.png",
@@ -137,16 +141,20 @@ workbox.routing.registerRoute(
 
 // Receive push and show a notification
 self.addEventListener('push', function(event) {
-    const options = {
-        body: 'Новое уведомление',
-        icon: 'assets/icons/icon-192x192.png',
-        badge: 'assets/icons/icon-72x72.png'
-    };
+  const data = event.data.json();
+  const message = data.text;
 
-    event.waitUntil(
-        self.registration.showNotification('Уведомление', options)
-    );
+  const options = {
+    body: message,
+    icon: 'assets/icons/icon-192x192.png',
+    badge: 'assets/icons/badge.png'
+  };
+
+  event.waitUntil(
+    self.registration.showNotification('Напоминание о намазе', options)
+  );
 });
+
 
 
 
