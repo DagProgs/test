@@ -29,14 +29,14 @@ fetch('js/json/prayer-times.json')
             console.error("Браузер не поддерживает уведомления");
         } else if (Notification.permission === "granted") {
             new Notification(prayerName + " - время для намаза", {
-                icon: 'assets/icons/icon.png',
+                icon: 'assets/icons/icon-192x192.png',
                 body: "Приготовьтесь к намазу",
             });
         } else if (Notification.permission !== "denied") {
             Notification.requestPermission().then(permission => {
                 if (permission === "granted") {
                     new Notification(prayerName + " - время для намаза", {
-                        icon: 'assets/icons/icon.png',
+                        icon: 'assets/icons/icon-192x192.png',
                         body: "Приготовьтесь к намазу",
                     });
                 }
