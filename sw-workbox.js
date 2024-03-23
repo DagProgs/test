@@ -22,7 +22,7 @@ workbox.core.clientsClaim();
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
-    "revision": "92db7ffb4a05a5cf24c8fa632ba05642"
+    "revision": "72583c0cffce78f0daf32e7086d856c0"
   },
   {
     "url": "css/style.css",
@@ -136,24 +136,17 @@ workbox.routing.registerRoute(
 // OTHER EVENTS
 
 // Receive push and show a notification
-// Receive push and show a notification
 self.addEventListener('push', function(event) {
-  let data = { title: 'Намазное время', body: 'Время для выполнения намаза приближается' };
-  
-  // Парсинг данных из уведомления push
-  if (event.data) {
-    data = JSON.parse(event.data.text());
-  }
+    const options = {
+        body: 'Новое уведомление',
+        icon: 'assets/icons/icon-192x192.png',
+        badge: 'assets/icons/icon-72x72.png'
+    };
 
-  const options = {
-    body: data.body,
-    icon: 'assets/icons/icon-192x192.png',
-    badge: 'assets/icons/icon-72x72.png'
-  };
-
-  event.waitUntil(
-    self.registration.showNotification(data.title, options)
-  );
+    event.waitUntil(
+        self.registration.showNotification('Уведомление', options)
+    );
 });
+
 
 
