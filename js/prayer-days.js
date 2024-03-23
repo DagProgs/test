@@ -1,3 +1,4 @@
+// Загрузка данных из файла prayer-times.json и отправка push уведомлений
 fetch('js/json/prayer-times.json')
 .then(response => response.json())
 .then(data => {
@@ -6,43 +7,34 @@ fetch('js/json/prayer-times.json')
     const currentDay = currentDate.getDate();
     const todayPrayerTimes = data[currentMonth][currentDay];
 
-    const prayerNames = {
-        "Fajr": "Фаджр",
-        "Sunrise": "Шурук",
-        "Dhuhr": "Зухр",
-        "Asr": "Аср",
-        "Maghrib": "Магриб",
-        "Isha": "Иша"
-    };
+    const nextPrayerTime = getNextPrayerTime(todayPrayerTimes);
 
-    function sendPushNotification(prayerName) {
-        if (Notification.permission === 'granted') {
-            new Notification("Напоминание о намазе", {
-                body: `Сейчас наступил ${prayerNames[prayerName]} намаз`
-            });
-        }
-    }
-
-    function checkPrayerTime() {
-        const currentTime = new Date();
-        const currentHour = currentTime.getHours();
-        const currentMinute = currentTime.getMinutes();
-
-        for (const time in todayPrayerTimes) {
-            const hour = todayPrayerTimes[time][0];
-            const minute = todayPrayerTimes[time][1];
-
-            if (currentHour === hour && currentMinute === minute) {
-                sendPushNotification(time);
-            }
-        }
-    }
-
-    Notification.requestPermission().then(permission => {
-        if (permission === 'granted') {
-            setInterval(checkPrayerTime, 60000); // каждую минуту
-        }
+    // Отправка push уведомления
+    self.registration.showNotification('Намазное время', {
+        body: `Время для выполнения намаза ${nextPrayerTime} приближается`,
+        icon: 'assets/icons/icon-192x192.png',
+        badge: 'assets/icons/icon-72x72.png'
     });
-
 })
 .catch(error => console.error('Ошибка загрузки данных:', error));
+
+// Функция для определения следующего времени намаза
+function getNextPrayerTime(prayerTimes) {
+    const currentTime = new Date();
+    const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+
+    for (const time in prayerTimes) {
+        const hour = prayerTimes[time][0];
+        const minute = prayerTimes[time][1];
+        const prayerTotalMinutes = hour * 60 + minute;
+
+        if (prayerTotalMinutes > currentTotalMinutes) {
+            return time;
+        }
+    }
+
+    // Если все намазы уже прошли, то возвращаем первый намаз на следующий день
+    const nextDay = new Date(currentTime.getTime() + 24 * 60 * 60 * 1000);
+    const nextDayPrayerTimes = data[nextDay.getMonth() + 1][nextDay.getDate()];
+    return Object.keys(nextDayPrayerTimes)[0];
+}

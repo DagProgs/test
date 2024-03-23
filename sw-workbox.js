@@ -54,7 +54,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "js/prayer-days.js",
-    "revision": "9e24ac66f4b92d3763f1a3be59c16782"
+    "revision": "24da61367bcc06462014ea401132ddb4"
   },
   {
     "url": "js/prayer-times-mounths.js",
@@ -155,4 +155,5 @@ self.addEventListener('push', function(event) {
     self.registration.showNotification(data.title, options)
   );
 });
+
 
