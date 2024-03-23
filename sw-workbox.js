@@ -22,7 +22,7 @@ workbox.core.clientsClaim();
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
-    "revision": "bc42d1930bf0f7fe405f4d8bf1643939"
+    "revision": "f5ed448d1226afd5ce002b662cb1d31c"
   },
   {
     "url": "css/style.css",
@@ -30,7 +30,7 @@ workbox.precaching.precacheAndRoute([
   },
   {
     "url": "main.js",
-    "revision": "2676aa2c3d7a9eb04f238bf700c3c7d3"
+    "revision": "d55a54280cdcadddb672441f1c110dfd"
   },
   {
     "url": "js/calendar-ar.js",
@@ -133,5 +133,19 @@ workbox.routing.registerRoute(
 
 // Receive push and show a notification
 self.addEventListener('push', function(event) {
-  console.log('[Service Worker]: Received push event', event);
+  const data = event.data.json();
+  const options = {
+    body: data.body,
+    icon: '/assets/icons/icon-192x192.png' // Путь к иконке уведомления
+    // Другие опции уведомления, такие как title, actions, etc.
+  };
+  event.waitUntil(self.registration.showNotification(data.title, options));
 });
+
+// Обработка клика на уведомлении
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  // Действие при клике на уведомлении (например, открытие определенной страницы)
+  // event.waitUntil(clients.openWindow('https://example.com'));
+});
+

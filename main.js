@@ -12,19 +12,23 @@ document.getElementsByClassName("close")[0].onclick = function() {
 }
 
 if ('serviceWorker' in navigator) {
-    const wb = new Workbox('sw-workbox.js');
-
-    wb.addEventListener('installed', event => {
-        if (event.isUpdate) {
-            if (confirm(`Мы только что обновили версию приложения! Чтобы получить обновления, нажмите на кнопку OK.`)) {
-                window.location.reload();
-            } else {
-                alert(`Вы отказались от обновления приложения. Для получения новых возможностей перезагрузите страницу в будущем.`);
-            }
-        } else {
-            alert(`Приложение готово к работе в автономном режиме`);
-        }
+    navigator.serviceWorker.register('sw-workbox.js')
+    .then(function(registration) {
+        console.log('Service Worker зарегистрирован', registration);
+    })
+    .catch(function(error) {
+        console.error('Ошибка регистрации Service Worker:', error);
     });
-
-    wb.register();
 }
+
+function sendNotification(title, body) {
+    if (navigator.serviceWorker.controller) {
+        navigator.serviceWorker.controller.postMessage({title: title, body: body});
+    } else {
+        console.error('Service Worker не активен');
+    }
+}
+
+// Ваш другой JavaScript код здесь
+// Например, код для загрузки данных из JSON и обновления интерфейса
+
