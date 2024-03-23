@@ -1,3 +1,4 @@
+// Загрузка данных из файла prayer-times.json
 fetch('js/json/prayer-times.json')
 .then(response => response.json())
 .then(data => {
@@ -22,47 +23,52 @@ fetch('js/json/prayer-times.json')
         const formattedTime = `${hour < 10 ? '0' + hour : hour}:${minute < 10 ? '0' + minute : minute}`;
         document.getElementById(time.toLowerCase() + "-time").innerText = formattedTime;
         document.getElementById(time.toLowerCase() + "-name").innerText = prayerNames[time];
+
     }
 
-    function sendBrowserNotification(title, options) {
-        if (Notification.permission === 'granted') {
-            navigator.serviceWorker.getRegistration().then(function(registration) {
-                registration.showNotification(title, options);
-            });
-        } else if (Notification.permission !== 'denied') {
-            Notification.requestPermission().then(function(permission) {
-                if (permission === 'granted') {
-                    sendBrowserNotification(title, options);
-                }
-            });
-        }
-    }
-
-    function checkPrayerTimeForNotification(time) {
-        const currentTime = new Date();
-        const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+    // Функция для обновления цвета времени намаза
+    function updatePrayerTimeColor() {
+    const currentTime = new Date();
+    const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+ 
+    for (const time in todayPrayerTimes) {
         const hour = todayPrayerTimes[time][0];
         const minute = todayPrayerTimes[time][1];
         const prayerTotalMinutes = hour * 60 + minute;
-
-        if (currentTotalMinutes >= prayerTotalMinutes && currentTotalMinutes < prayerTotalMinutes + 10) {
-            sendBrowserNotification("Наступает время намаза " + prayerNames[time], {
-                body: "Время для выполнения намаза " + prayerNames[time] + " приближается",
-                icon: 'assets/isons/icon.png'
-            });
+ 
+        const timeElement = document.getElementById(time.toLowerCase() + "-time");
+        const next = nextTime(time);
+ 
+        if (!todayPrayerTimes ||
+            (time === "Isha" && 
+            (
+                currentTotalMinutes >= prayerTotalMinutes || // До конца текущего дня
+                currentTotalMinutes < (todayPrayerTimes["Fajr"][0] * 60 + todayPrayerTimes["Fajr"][1]) // До начала намаза Fajr
+            ))
+        ) {
+            timeElement.classList.add("highlighted");
+        } else if (currentTotalMinutes >= prayerTotalMinutes && currentTotalMinutes < (todayPrayerTimes[next][0] * 60 + todayPrayerTimes[next][1])) {
+            timeElement.classList.add("highlighted");
+            timeElement.classList.remove("not-passed");
+        } else {
+            timeElement.classList.add("not-passed");
+            timeElement.classList.remove("highlighted");
         }
     }
+}
 
-    function updatePrayerTimeColor() {
-        // Код для обновления времени намаза и проверки отправки уведомлений
+
+    // Функция для получения следующего времени
+    function nextTime(currentTime) {
+        const times = Object.keys(todayPrayerTimes);
+        const currentIndex = times.indexOf(currentTime);
+        return currentIndex !== -1 && times[currentIndex + 1];
     }
 
+    // Вызов функции для обновления цвета каждые 10 секунд
     updatePrayerTimeColor(); // Сначала выполнить функцию один раз при загрузке страницы
-    setInterval(() => {
-        for (const time in todayPrayerTimes) {
-            checkPrayerTimeForNotification(time);
-        }
-    }, 10000); // каждые 10 секунд
+    setInterval(updatePrayerTimeColor, 10000); // каждые 10 секунд (10000 миллисекунд)
+
 
 })
 .catch(error => console.error('Ошибка загрузки данных:', error));
