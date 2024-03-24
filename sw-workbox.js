@@ -1,24 +1,16 @@
 importScripts('workbox-v4.3.0/workbox-sw.js');
 
-// SETTINGS
-
-// Path prefix to load modules locally
 workbox.setConfig({
   modulePathPrefix: 'workbox-v4.3.0/'
 });
 
-// Turn on logging
 workbox.setConfig({
   debug: true
 });
 
-// Updating SW lifecycle to update the app after user triggered refresh
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 
-// PRECACHING
-
-// We inject manifest here using "workbox-build" in workbox-build-inject.js
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
@@ -98,9 +90,6 @@ workbox.precaching.precacheAndRoute([
   }
 ]);
 
-// RUNTIME CACHING
-
-// Google fonts
 workbox.routing.registerRoute(
   new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
   new workbox.strategies.StaleWhileRevalidate({
@@ -113,100 +102,81 @@ workbox.routing.registerRoute(
   })
 );
 
-// API with network-first strategy
 workbox.routing.registerRoute(
   /(http[s]?:\/\/)?([^\/\s]+\/)timeline/,
   workbox.strategies.networkFirst()
-)
+);
 
-// API with cache-first strategy
 workbox.routing.registerRoute(
   /(http[s]?:\/\/)?([^\/\s]+\/)favorites/,
   workbox.strategies.cacheFirst()
-)
+);
 
-// OTHER EVENTS
+async function getPrayerTimes() {
+  const response = await fetch('js/json/prayer-times.json');
+  const data = await response.json();
+  return data;
+}
 
-// Загрузка данных из файла prayer-times.json
-fetch('js/json/prayer-times.json')
-.then(response => response.json())
-.then(data => {
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1;
-    const currentDay = currentDate.getDate();
-    const todayPrayerTimes = data[currentMonth][currentDay];
+self.addEventListener('install', event => {
+  event.waitUntil(
+    (async () => {
+      const prayerTimes = await getPrayerTimes();
+      self.prayerTimes = prayerTimes;
+      console.log('Prayer times loaded:', prayerTimes);
+    })()
+  );
+});
 
-    const prayerNames = {
-        "Fajr": "Фаджр",
-        "Sunrise": "Шурук",
-        "Dhuhr": "Зухр",
-        "Asr": "Аср",
-        "Maghrib": "Магриб",
-        "Isha": "Иша"
-    };
+self.addEventListener('sync', event => {
+  if (event.tag === 'prayer-notification-sync') {
+    event.waitUntil(sendSavedNotifications());
+  }
+});
 
-    // Функция для отправки push уведомления
-    async function sendPushNotification(time) {
-        const options = {
-            body: `Время для намаза ${prayerNames[time]}`,
-            icon: 'path/to/icon.png'
-        };
+async function sendSavedNotifications() {
+  const storedNotifications = await getStoredNotificationsFromIndexedDB();
 
-        await self.registration.showNotification('Название вашего приложения', options);
+  storedNotifications.forEach(notification => {
+    sendPushNotification(notification.time);
+  });
+
+  await clearStoredNotificationsFromIndexedDB();
+}
+
+async function getStoredNotificationsFromIndexedDB() {
+  // Логика получения данных из IndexedDB
+}
+
+async function clearStoredNotificationsFromIndexedDB() {
+  // Логика удаления данных из IndexedDB
+}
+
+async function sendPushNotification(time) {
+  const options = {
+    body: `Время для намаза ${prayerNames[time]}`,
+    icon: 'assets/icons/icon-192x192.png'
+  };
+
+  await self.registration.showNotification('Название вашего приложения', options);
+}
+
+function updatePrayerTimeColor() {
+  const currentTime = new Date();
+  const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+  const todayPrayerTimes = self.prayerTimes[currentMonth][currentDay];
+
+  for (const time in todayPrayerTimes) {
+    const hour = todayPrayerTimes[time][0];
+    const minute = todayPrayerTimes[time][1];
+    const prayerTotalMinutes = hour * 60 + minute;
+
+    if (currentTotalMinutes === prayerTotalMinutes) {
+      saveNotificationToIndexedDB({ time });
     }
+  }
+}
 
-    // Функция для сохранения уведомлений в IndexedDB
-    async function saveNotificationToIndexedDB() {
-        // Логика сохранения уведомлений
-    }
+updatePrayerTimeColor();
 
-    // Background Sync
-    self.addEventListener('sync', event => {
-        if (event.tag === 'prayer-notification-sync') {
-            event.waitUntil(sendSavedNotifications());
-        }
-    });
-
-    async function sendSavedNotifications() {
-        const storedNotifications = await getStoredNotificationsFromIndexedDB();
-
-        storedNotifications.forEach(notification => {
-            sendPushNotification(notification.time);
-        });
-
-        await clearStoredNotificationsFromIndexedDB();
-    }
-
-    async function getStoredNotificationsFromIndexedDB() {
-        // Логика получения данных из IndexedDB
-    }
-
-    async function clearStoredNotificationsFromIndexedDB() {
-        // Логика удаления данных из IndexedDB
-    }
-
-    // Обновление цвета времени намаза и отправка уведомлений
-    function updatePrayerTimeColor() {
-        const currentTime = new Date();
-        const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-      
-        for (const time in todayPrayerTimes) {
-            const hour = todayPrayerTimes[time][0];
-            const minute = todayPrayerTimes[time][1];
-            const prayerTotalMinutes = hour * 60 + minute;
-      
-            if (currentTotalMinutes === prayerTotalMinutes) {
-                saveNotificationToIndexedDB({ time });
-            }
-
-            // Другая логика по обновлению цвета времени намаза
-        }
-    }
-
-    // Вызов функции для обновления цвета каждые 10 секунд
-    updatePrayerTimeColor(); // Сначала выполнить функцию один раз при загрузке страницы
-    setInterval(updatePrayerTimeColor, 10000); // каждые 10 секунд (10000 миллисекунд)
-
-})
-.catch(error => console.error('Ошибка загрузки данных:', error));
-
+setInterval(updatePrayerTimeColor, 10000);
