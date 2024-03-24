@@ -132,7 +132,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 // Загрузка данных из файла prayer-times.json для времен намазов
-fetch('../js/json/prayer-times.json')
+fetch('/js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => {
     const currentDate = new Date();
@@ -162,7 +162,7 @@ fetch('../js/json/prayer-times.json')
         if (currentTotalMinutes >= prayerTotalMinutes && currentTotalMinutes < (prayerTotalMinutes + 10)) {
           const notificationOptions = {
             body: `Сейчас время для ${prayerNames[time]}`,
-            icon: 'assets/icons/icon-192x192.png'
+            icon: '/assets/icons/icon-192x192.png'
           };
           self.registration.showNotification('Наступило время намаза', notificationOptions);
         }
