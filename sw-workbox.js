@@ -130,27 +130,28 @@ workbox.routing.registerRoute(
 // Регистрация Service Worker для уведомлений
 self.addEventListener('push', function(event) {
   console.log('[Service Worker]: Received push event', event);
-  
+
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
   const currentDay = currentDate.getDate();
   const currentTime = currentDate.getHours() * 60 + currentDate.getMinutes();
-  
+
   fetch('js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => {
     const todayPrayerTimes = data[currentMonth][currentDay];
-    
+
     for (const time in todayPrayerTimes) {
       const hour = todayPrayerTimes[time][0];
       const minute = todayPrayerTimes[time][1];
       const prayerTime = hour * 60 + minute;
-      
+
       if (currentTime === prayerTime) {
         const notificationOptions = {
           body: `Сейчас время для намаза ${time}`,
+          icon: 'assets/icons/icon-192x192.png'
         };
-        
+
         self.registration.showNotification('Намазное время', notificationOptions);
       }
     }
