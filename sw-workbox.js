@@ -148,7 +148,7 @@ function schedulePrayerTimeNotifications(prayerTimes) {
         if (prayerTime > new Date()) {
           self.registration.showNotification("Prayer time", {
             body: `It's time for ${prayer} prayer on ${day}/${parseInt(month)+1}!`,
-            icon: '/assets/icons/icon-192x192.png'
+            icon: 'assets/icons/icon-192x192.png'
           });
         }
       }
@@ -157,7 +157,7 @@ function schedulePrayerTimeNotifications(prayerTimes) {
 }
 
 // Fetch и парсинг JSON файла с временами намазов
-fetch('/js/json/prayer-times.json')
+fetch('js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => schedulePrayerTimeNotifications(data));
 
