@@ -132,16 +132,35 @@ async function loadPrayerTimesAndNotify() {
   const currentDay = currentDate.getDate();
   const todayPrayerTimes = data[currentMonth][currentDay];
 
-  // Без изменений
+  // Функция для проверки времени намаза и отправки уведомлений
+  function checkPrayerTimeAndNotify() {
+    const currentTime = new Date();
+    const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
-  // Регистрация фоновой синхронизации
+    for (const time in todayPrayerTimes) {
+      const hour = todayPrayerTimes[time][0];
+      const minute = todayPrayerTimes[time][1];
+      const prayerTotalMinutes = hour * 60 + minute;
+
+      // Отправляем уведомление в точно в момент времени намаза
+      if (currentTotalMinutes === prayerTotalMinutes) {
+        const notificationOptions = {
+          body: `Сейчас время для ${prayerNames[time]}`,
+          icon: 'assets/icons/icon-192x192.png'
+        };
+        self.registration.showNotification('Наступило время намаза', notificationOptions);
+      }
+    }
+  }
+
+  // Фоновая синхронизация для проверки времени намаза
   self.addEventListener('sync', event => {
     if (event.tag === 'checkPrayerTimeAndNotify') {
       event.waitUntil(checkPrayerTimeAndNotify());
     }
   });
 
-  // Регистрация таймера для фоновой синхронизации каждую минуту
+  // Планирование фоновой синхронизации каждую минуту
   self.setInterval(async () => {
     if (await Notification.requestPermission() === 'granted') {
       registration.sync.register('checkPrayerTimeAndNotify');
@@ -149,28 +168,6 @@ async function loadPrayerTimesAndNotify() {
   }, 60000);
 }
 
-// Функция для проверки времени намаза и отправки уведомлений
-function checkPrayerTimeAndNotify() {
-  const currentTime = new Date();
-  const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
-
-  for (const time in todayPrayerTimes) {
-    const hour = todayPrayerTimes[time][0];
-    const minute = todayPrayerTimes[time][1];
-    const prayerTotalMinutes = hour * 60 + minute;
-
-    // Отправляем уведомление в точно в момент времени намаза
-    if (currentTotalMinutes === prayerTotalMinutes) {
-      const notificationOptions = {
-        body: `Сейчас время для ${prayerNames[time]}`,
-        icon: 'assets/icons/icon-192x192.png'
-      };
-      self.registration.showNotification('Наступило время намаза', notificationOptions);
-    }
-  }
-}
-
-// Вызов функции загрузки времен намазов и отправки уведомлений
+// Функция для отправки уведомлений при наступлении времени намаза
 loadPrayerTimesAndNotify()
   .catch(error => console.error('Ошибка загрузки данных:', error));
-
