@@ -1,24 +1,14 @@
 importScripts('workbox-v4.3.0/workbox-sw.js');
 
-// SETTINGS
-
-// Path prefix to load modules locally
 workbox.setConfig({
   modulePathPrefix: 'workbox-v4.3.0/'
 });
-
-// Turn on logging
 workbox.setConfig({
   debug: true
 });
-
-// Updating SW lifecycle to update the app after user triggered refresh
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 
-// PRECACHING
-
-// We inject manifest here using "workbox-build" in workbox-build-inject.js
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
@@ -98,9 +88,6 @@ workbox.precaching.precacheAndRoute([
   }
 ]);
 
-// RUNTIME CACHING
-
-// Google fonts
 workbox.routing.registerRoute(
   new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
   new workbox.strategies.StaleWhileRevalidate({
@@ -113,48 +100,62 @@ workbox.routing.registerRoute(
   })
 );
 
-// API with network-first strategy
-workbox.routing.registerRoute(
-  /(http[s]?:\/\/)?([^\/\s]+\/)timeline/,
-  workbox.strategies.networkFirst()
-)
-
-// API with cache-first strategy
-workbox.routing.registerRoute(
-  /(http[s]?:\/\/)?([^\/\s]+\/)favorites/,
-  workbox.strategies.cacheFirst()
-)
-
-// OTHER EVENTS
-
-// Регистрация Service Worker для уведомлений
 self.addEventListener('push', function(event) {
-  console.log('[Service Worker]: Received push event', event);
+  const data = event.data.json();
+  const options = {
+    body: data.body,
+    icon: '/assets/icons/icon-192x192.png'
+  };
+  event.waitUntil(self.registration.showNotification(data.title, options));
+});
+
+self.addEventListener('notificationclick', function(event) {
+  event.notification.close();
+  event.waitUntil(clients.openWindow('https://example.com'));
+});
+
+async function loadPrayerTimesAndNotify() {
+  const response = await fetch('js/json/prayer-times.json');
+  if (!response.ok) {
+    throw new Error('Ошибка загрузки данных');
+  }
+  const data = await response.json();
 
   const currentDate = new Date();
   const currentMonth = currentDate.getMonth() + 1;
   const currentDay = currentDate.getDate();
-  const currentTime = currentDate.getHours() * 60 + currentDate.getMinutes();
+  const todayPrayerTimes = data[currentMonth][currentDay];
 
-  fetch('js/json/prayer-times.json')
-  .then(response => response.json())
-  .then(data => {
-    const todayPrayerTimes = data[currentMonth][currentDay];
+  const prayerNames = {
+    "Fajr": "Фаджр",
+    "Sunrise": "Шурук",
+    "Dhuhr": "Зухр",
+    "Asr": "Аср",
+    "Maghrib": "Магриб",
+    "Isha": "Иша"
+  };
+
+  function updatePrayerTimeColorAndNotify() {
+    const currentTime = new Date();
+    const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
     for (const time in todayPrayerTimes) {
       const hour = todayPrayerTimes[time][0];
       const minute = todayPrayerTimes[time][1];
-      const prayerTime = hour * 60 + minute;
+      const prayerTotalMinutes = hour * 60 + minute;
 
-      if (currentTime === prayerTime) {
+      if (currentTotalMinutes >= prayerTotalMinutes && currentTotalMinutes < (prayerTotalMinutes + 10)) {
         const notificationOptions = {
-          body: `Сейчас время для намаза ${time}`,
+          body: `Сейчас время для ${prayerNames[time]}`,
           icon: 'assets/icons/icon-192x192.png'
         };
-
-        self.registration.showNotification('Намазное время', notificationOptions);
+        self.registration.showNotification('Наступило время намаза', notificationOptions);
       }
     }
-  })
+  }
+
+  setInterval(updatePrayerTimeColorAndNotify, 10000);
+}
+
+loadPrayerTimesAndNotify()
   .catch(error => console.error('Ошибка загрузки данных:', error));
-});
