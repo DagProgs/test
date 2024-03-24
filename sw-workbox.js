@@ -132,7 +132,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 // Получаем времена намазов из файла prayer-times.json
-fetch('js/json/prayer-times.json')
+fetch('../js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => {
     const prayerTimes = data; // Данные времен намазов из файла
