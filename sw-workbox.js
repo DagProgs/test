@@ -131,46 +131,37 @@ self.addEventListener('notificationclick', function(event) {
   event.waitUntil(clients.openWindow('https://dagprogs.github.io/test/'));
 });
 
-// Загрузка данных из файла prayer-times.json для времен намазов
+// Получаем времена намазов из файла prayer-times.json
 fetch('js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => {
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth() + 1;
-    const currentDay = currentDate.getDate();
-    const todayPrayerTimes = data[currentMonth][currentDay];
+    const prayerTimes = data; // Данные времен намазов из файла
 
-    const prayerNames = {
-        "Fajr": "Фаджр",
-        "Sunrise": "Шурук",
-        "Dhuhr": "Зухр",
-        "Asr": "Аср",
-        "Maghrib": "Магриб",
-        "Isha": "Иша"
-    };
-
-    // Функция для обновления цвета времени намаза и отправки уведомлений
-    function updatePrayerTimeColor() {
+    // Функция для проверки времени намаза и отправки уведомлений
+    function checkPrayerTimeAndNotify() {
       const currentTime = new Date();
-      const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+      const currentHour = currentTime.getHours();
+      const currentMinutes = currentTime.getMinutes();
+      const totalCurrentMinutes = currentHour * 60 + currentMinutes;
 
-      for (const time in todayPrayerTimes) {
-        const hour = todayPrayerTimes[time][0];
-        const minute = todayPrayerTimes[time][1];
-        const prayerTotalMinutes = hour * 60 + minute;
+      for (const prayerTime in prayerTimes) {
+        const prayerHour = prayerTimes[prayerTime].hour;
+        const prayerMinutes = prayerTimes[prayerTime].minute;
+        const totalPrayerMinutes = prayerHour * 60 + prayerMinutes;
 
-        if (currentTotalMinutes >= prayerTotalMinutes && currentTotalMinutes < (prayerTotalMinutes + 10)) {
+        if (totalCurrentMinutes >= totalPrayerMinutes && totalCurrentMinutes < (totalPrayerMinutes + 10)) {
           const notificationOptions = {
-            body: `Сейчас время для ${prayerNames[time]}`,
+            body: `Сейчас время для ${prayerTime}`,
             icon: 'assets/icons/icon-192x192.png'
           };
           self.registration.showNotification('Наступило время намаза', notificationOptions);
+          break; // Прерываем цикл после отправки уведомления
         }
       }
     }
 
-    // Вызов функции для обновления цвета и отправки уведомлений каждые 10 секунд
-    setInterval(updatePrayerTimeColor, 10000);
+    // Вызов функции для проверки времени намаза и отправки уведомлений каждые минуту
+    setInterval(checkPrayerTimeAndNotify, 60000); // Проверка каждую минуту
 
   })
-  .catch(error => console.error('Ошибка загрузки данных:', error));
+  .catch(error => console.error('Ошибка загрузки времен намазов:', error));
