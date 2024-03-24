@@ -128,11 +128,14 @@ self.addEventListener('install', event => {
   );
 });
 
-self.addEventListener('sync', event => {
-  if (event.tag === 'prayer-notification-sync') {
-    event.waitUntil(sendSavedNotifications());
-  }
-});
+async function sendPushNotification(time) {
+  const options = {
+    body: `Время для намаза ${prayerNames[time]}`,
+    icon: 'assets/icons/icon-192x192.png'
+  };
+
+  await self.registration.showNotification('Название вашего приложения', options);
+}
 
 async function sendSavedNotifications() {
   const storedNotifications = await getStoredNotificationsFromIndexedDB();
@@ -144,21 +147,18 @@ async function sendSavedNotifications() {
   await clearStoredNotificationsFromIndexedDB();
 }
 
+self.addEventListener('sync', event => {
+  if (event.tag === 'prayer-notification-sync') {
+    event.waitUntil(sendSavedNotifications());
+  }
+});
+
 async function getStoredNotificationsFromIndexedDB() {
   // Логика получения данных из IndexedDB
 }
 
 async function clearStoredNotificationsFromIndexedDB() {
   // Логика удаления данных из IndexedDB
-}
-
-async function sendPushNotification(time) {
-  const options = {
-    body: `Время для намаза ${prayerNames[time]}`,
-    icon: 'assets/icons/icon-192x192.png'
-  };
-
-  await self.registration.showNotification('Название вашего приложения', options);
 }
 
 function updatePrayerTimeColor() {
