@@ -22,7 +22,7 @@ workbox.core.clientsClaim();
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
-    "revision": "94f993322a125fcd7d19202963695c63"
+    "revision": "ccb5ea7bf2478ee060d0fb268885f9e3"
   },
   {
     "url": "css/style.css",
@@ -134,23 +134,30 @@ self.addEventListener('push', function(event) {
 
 // Парсим JSON файл и создаем расписание для отправки уведомлений
 function schedulePrayerTimeNotifications(prayerTimes) {
-  let times = prayerTimes["3"]["24"];
-  for (let prayer in times) {
-    let time = times[prayer];
-    let prayerTime = new Date();
-    prayerTime.setHours(time[0], time[1], 0, 0);
+  for (let month in prayerTimes) {
+    let monthsData = prayerTimes[month];
+    for (let day in monthsData) {
+      let dayData = monthsData[day];
+      for (let prayer in dayData) {
+        let time = dayData[prayer];
+        let prayerTime = new Date();
+        prayerTime.setMonth(parseInt(month) - 1);
+        prayerTime.setDate(parseInt(day));
+        prayerTime.setHours(time[0], time[1], 0, 0);
 
-    if (prayerTime > new Date()) {
-      self.registration.showNotification("Prayer time", {
-        body: `It's time for ${prayer} prayer!`,
-        icon: 'assets/icons/icon-192x192.png'
-      });
+        if (prayerTime > new Date()) {
+          self.registration.showNotification("Prayer time", {
+            body: `It's time for ${prayer} prayer on ${day}/${parseInt(month)+1}!`,
+            icon: '/assets/icons/icon-192x192.png'
+          });
+        }
+      }
     }
   }
 }
 
 // Fetch и парсинг JSON файла с временами намазов
-fetch('js/json/prayer-times.json')
+fetch('/js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => schedulePrayerTimeNotifications(data));
 
