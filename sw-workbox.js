@@ -149,7 +149,7 @@ self.addEventListener('push', function(event) {
       if (currentTime === prayerTime) {
         const notificationOptions = {
           body: `Сейчас время для намаза ${time}`,
-          icon: '/assets/icons/icon-192x192.png'
+          icon: 'assets/icons/icon-192x192.png'
         };
 
         self.registration.showNotification('Намазное время', notificationOptions);
