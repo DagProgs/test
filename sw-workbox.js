@@ -114,10 +114,11 @@ self.addEventListener('notificationclick', function(event) {
   event.waitUntil(clients.openWindow('https://example.com'));
 });
 
+// Загрузка данных из файла prayer-times.json для времен намазов
 async function loadPrayerTimesAndNotify() {
   const response = await fetch('js/json/prayer-times.json');
   if (!response.ok) {
-    throw new Error('Ошибка загрузки данных');
+    throw new Error('Ошибка загрузки данных:');
   }
   const data = await response.json();
 
@@ -135,7 +136,8 @@ async function loadPrayerTimesAndNotify() {
     "Isha": "Иша"
   };
 
-  function notifyPrayerTime() {
+  // Функция для проверки времени намаза и отправки уведомлений
+  function checkPrayerTimeAndNotify() {
     const currentTime = new Date();
     const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
@@ -144,7 +146,8 @@ async function loadPrayerTimesAndNotify() {
       const minute = todayPrayerTimes[time][1];
       const prayerTotalMinutes = hour * 60 + minute;
 
-      if (currentTotalMinutes === prayerTotalMinutes) {
+      // Отправляем уведомление, если время наступило
+      if (currentTotalMinutes >= prayerTotalMinutes - 1 && currentTotalMinutes < prayerTotalMinutes) {
         const notificationOptions = {
           body: `Сейчас время для ${prayerNames[time]}`,
           icon: 'assets/icons/icon-192x192.png'
@@ -154,8 +157,23 @@ async function loadPrayerTimesAndNotify() {
     }
   }
 
-  setInterval(notifyPrayerTime, 60000); // Проверять каждую минуту
+  // Регистрация фоновой синхронизации
+  self.addEventListener('sync', event => {
+    if (event.tag === 'checkPrayerTimeAndNotify') {
+      event.waitUntil(checkPrayerTimeAndNotify());
+    }
+  });
+
+  // Регистрация таймера для фоновой синхронизации каждую минуту
+  self.setInterval(async () => {
+    if (await Notification.requestPermission() === 'granted') {
+      registration.sync.register('checkPrayerTimeAndNotify');
+    }
+  }, 60000);
 }
 
+// Запуск функции загрузки времен намазов и отправки уведомлений
 loadPrayerTimesAndNotify()
   .catch(error => console.error('Ошибка загрузки данных:', error));
+
+
