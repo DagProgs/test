@@ -135,7 +135,7 @@ async function loadPrayerTimesAndNotify() {
     "Isha": "Иша"
   };
 
-  function updatePrayerTimeColorAndNotify() {
+  function notifyPrayerTime() {
     const currentTime = new Date();
     const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
 
@@ -144,7 +144,7 @@ async function loadPrayerTimesAndNotify() {
       const minute = todayPrayerTimes[time][1];
       const prayerTotalMinutes = hour * 60 + minute;
 
-      if (currentTotalMinutes >= prayerTotalMinutes && currentTotalMinutes < (prayerTotalMinutes + 10)) {
+      if (currentTotalMinutes === prayerTotalMinutes) {
         const notificationOptions = {
           body: `Сейчас время для ${prayerNames[time]}`,
           icon: 'assets/icons/icon-192x192.png'
@@ -154,7 +154,7 @@ async function loadPrayerTimesAndNotify() {
     }
   }
 
-  setInterval(updatePrayerTimeColorAndNotify, 10000);
+  setInterval(notifyPrayerTime, 60000); // Проверять каждую минуту
 }
 
 loadPrayerTimesAndNotify()
