@@ -127,52 +127,86 @@ workbox.routing.registerRoute(
 
 // OTHER EVENTS
 
-// Переменная для отслеживания отправленных уведомлений
-let notificationsSent = false;
-
-// Receive push and show a notification
-self.addEventListener('push', function(event) {
-    console.log('[Service Worker]: Received push event', event);
-    event.waitUntil(
-        self.registration.showNotification("Prayer time", {
-            body: event.data.text()
-        })
-    );
-    // Сброс переменной после отправки уведомления
-    notificationsSent = true;  
-});
-
-// Функция для отправки уведомлений
-function sendNotifications(prayerTimes) {
-    if (!notificationsSent) {
-        for (let month in prayerTimes) {
-            let monthsData = prayerTimes[month];
-            for (let day in monthsData) {
-                let dayData = monthsData[day];
-                for (let prayer in dayData) {
-                    let time = dayData[prayer];
-                    let prayerTime = new Date();
-                    prayerTime.setMonth(parseInt(month) - 1);
-                    prayerTime.setDate(parseInt(day));
-                    prayerTime.setHours(time[0], time[1], 0, 0);
-
-                    if (prayerTime > new Date()) {
-                        self.registration.showNotification("Prayer time", {
-                            body: `It's time for ${prayer} prayer on ${day}/${parseInt(month)+1}!`,
-                            icon: 'assets/icons/icon-192x192.png'
-                        });
-                    }
-                }
-            }
-        }
-        notificationsSent = true;
-    }
-}
-
-// Fetch и парсинг JSON файла с временами намазов
+// Загрузка данных из файла prayer-times.json
 fetch('js/json/prayer-times.json')
-    .then(response => response.json())
-    .then(data => sendNotifications(data));
+.then(response => response.json())
+.then(data => {
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth() + 1;
+    const currentDay = currentDate.getDate();
+    const todayPrayerTimes = data[currentMonth][currentDay];
 
+    const prayerNames = {
+        "Fajr": "Фаджр",
+        "Sunrise": "Шурук",
+        "Dhuhr": "Зухр",
+        "Asr": "Аср",
+        "Maghrib": "Магриб",
+        "Isha": "Иша"
+    };
 
+    // Функция для отправки push уведомления
+    async function sendPushNotification(time) {
+        const options = {
+            body: `Время для намаза ${prayerNames[time]}`,
+            icon: 'path/to/icon.png'
+        };
+
+        await self.registration.showNotification('Название вашего приложения', options);
+    }
+
+    // Функция для сохранения уведомлений в IndexedDB
+    async function saveNotificationToIndexedDB() {
+        // Логика сохранения уведомлений
+    }
+
+    // Background Sync
+    self.addEventListener('sync', event => {
+        if (event.tag === 'prayer-notification-sync') {
+            event.waitUntil(sendSavedNotifications());
+        }
+    });
+
+    async function sendSavedNotifications() {
+        const storedNotifications = await getStoredNotificationsFromIndexedDB();
+
+        storedNotifications.forEach(notification => {
+            sendPushNotification(notification.time);
+        });
+
+        await clearStoredNotificationsFromIndexedDB();
+    }
+
+    async function getStoredNotificationsFromIndexedDB() {
+        // Логика получения данных из IndexedDB
+    }
+
+    async function clearStoredNotificationsFromIndexedDB() {
+        // Логика удаления данных из IndexedDB
+    }
+
+    // Обновление цвета времени намаза и отправка уведомлений
+    function updatePrayerTimeColor() {
+        const currentTime = new Date();
+        const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
+      
+        for (const time in todayPrayerTimes) {
+            const hour = todayPrayerTimes[time][0];
+            const minute = todayPrayerTimes[time][1];
+            const prayerTotalMinutes = hour * 60 + minute;
+      
+            if (currentTotalMinutes === prayerTotalMinutes) {
+                saveNotificationToIndexedDB({ time });
+            }
+
+            // Другая логика по обновлению цвета времени намаза
+        }
+    }
+
+    // Вызов функции для обновления цвета каждые 10 секунд
+    updatePrayerTimeColor(); // Сначала выполнить функцию один раз при загрузке страницы
+    setInterval(updatePrayerTimeColor, 10000); // каждые 10 секунд (10000 миллисекунд)
+
+})
+.catch(error => console.error('Ошибка загрузки данных:', error));
 
