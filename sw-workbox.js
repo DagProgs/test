@@ -127,37 +127,52 @@ workbox.routing.registerRoute(
 
 // OTHER EVENTS
 
+// Переменная для отслеживания отправленных уведомлений
+let notificationsSent = false;
+
 // Receive push and show a notification
 self.addEventListener('push', function(event) {
-  console.log('[Service Worker]: Received push event', event);
+    console.log('[Service Worker]: Received push event', event);
+    event.waitUntil(
+        self.registration.showNotification("Prayer time", {
+            body: event.data.text()
+        })
+    );
+    // Сброс переменной после отправки уведомления
+    notificationsSent = true;  
 });
 
-// Парсим JSON файл и создаем расписание для отправки уведомлений
-function schedulePrayerTimeNotifications(prayerTimes) {
-  for (let month in prayerTimes) {
-    let monthsData = prayerTimes[month];
-    for (let day in monthsData) {
-      let dayData = monthsData[day];
-      for (let prayer in dayData) {
-        let time = dayData[prayer];
-        let prayerTime = new Date();
-        prayerTime.setMonth(parseInt(month) - 1);
-        prayerTime.setDate(parseInt(day));
-        prayerTime.setHours(time[0], time[1], 0, 0);
+// Функция для отправки уведомлений
+function sendNotifications(prayerTimes) {
+    if (!notificationsSent) {
+        for (let month in prayerTimes) {
+            let monthsData = prayerTimes[month];
+            for (let day in monthsData) {
+                let dayData = monthsData[day];
+                for (let prayer in dayData) {
+                    let time = dayData[prayer];
+                    let prayerTime = new Date();
+                    prayerTime.setMonth(parseInt(month) - 1);
+                    prayerTime.setDate(parseInt(day));
+                    prayerTime.setHours(time[0], time[1], 0, 0);
 
-        if (prayerTime > new Date()) {
-          self.registration.showNotification("Prayer time", {
-            body: `It's time for ${prayer} prayer on ${day}/${parseInt(month)+1}!`,
-            icon: 'assets/icons/icon-192x192.png'
-          });
+                    if (prayerTime > new Date()) {
+                        self.registration.showNotification("Prayer time", {
+                            body: `It's time for ${prayer} prayer on ${day}/${parseInt(month)+1}!`,
+                            icon: 'assets/icons/icon-192x192.png'
+                        });
+                    }
+                }
+            }
         }
-      }
+        notificationsSent = true;
     }
-  }
 }
 
 // Fetch и парсинг JSON файла с временами намазов
 fetch('js/json/prayer-times.json')
-  .then(response => response.json())
-  .then(data => schedulePrayerTimeNotifications(data));
+    .then(response => response.json())
+    .then(data => sendNotifications(data));
+
+
 
