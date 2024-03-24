@@ -5,8 +5,8 @@
             "Sunrise": [9, 3],
             "Dhuhr": [9, 5],
             "Asr": [9, 8],
-            "Maghrib": [9, 49],
-            "Isha": [9, 59]
+            "Maghrib": [10, 0],
+            "Isha": [10, 6]
         }
     }
 }
