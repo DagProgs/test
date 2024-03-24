@@ -1,24 +1,16 @@
 importScripts('workbox-v4.3.0/workbox-sw.js');
 
-// SETTINGS
-
-// Path prefix to load modules locally
 workbox.setConfig({
   modulePathPrefix: 'workbox-v4.3.0/'
 });
 
-// Turn on logging
 workbox.setConfig({
   debug: true
 });
 
-// Updating SW lifecycle to update the app after user triggered refresh
 workbox.core.skipWaiting();
 workbox.core.clientsClaim();
 
-// PRECACHING
-
-// We inject manifest here using "workbox-build" in workbox-build-inject.js
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
@@ -98,9 +90,6 @@ workbox.precaching.precacheAndRoute([
   }
 ]);
 
-// RUNTIME CACHING
-
-// Google fonts
 workbox.routing.registerRoute(
   new RegExp('https://fonts.(?:googleapis|gstatic).com/(.*)'),
   new workbox.strategies.StaleWhileRevalidate({
@@ -113,9 +102,6 @@ workbox.routing.registerRoute(
   })
 );
 
-// OTHER EVENTS
-
-// Receive push and show a notification
 self.addEventListener('push', function(event) {
   const data = event.data.json();
   const options = {
@@ -125,13 +111,12 @@ self.addEventListener('push', function(event) {
   event.waitUntil(self.registration.showNotification(data.title, options));
 });
 
-// Обработка клика на уведомлении
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   event.waitUntil(clients.openWindow('https://dagprogs.github.io/test/'));
 });
 
-// Загрузка данных из файла prayer-times.json для времен намазов
+// Получение данных из файла prayer-times.json для времен намазов
 fetch('js/json/prayer-times.json')
   .then(response => response.json())
   .then(data => {
@@ -141,15 +126,14 @@ fetch('js/json/prayer-times.json')
     const todayPrayerTimes = data[currentMonth][currentDay];
 
     const prayerNames = {
-        "Fajr": "Фаджр",
-        "Sunrise": "Шурук",
-        "Dhuhr": "Зухр",
-        "Asr": "Аср",
-        "Maghrib": "Магриб",
-        "Isha": "Иша"
+      "Fajr": "Фаджр",
+      "Sunrise": "Шурук",
+      "Dhuhr": "Зухр",
+      "Asr": "Аср",
+      "Maghrib": "Магриб",
+      "Isha": "Иша"
     };
 
-    // Функция для обновления цвета времени намаза и отправки уведомлений
     function updatePrayerTimeColor() {
       const currentTime = new Date();
       const currentTotalMinutes = currentTime.getHours() * 60 + currentTime.getMinutes();
@@ -169,7 +153,6 @@ fetch('js/json/prayer-times.json')
       }
     }
 
-    // Вызов функции для обновления цвета и отправки уведомлений каждые 10 секунд
     setInterval(updatePrayerTimeColor, 10000);
 
   })
