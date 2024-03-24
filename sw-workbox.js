@@ -108,13 +108,20 @@ self.addEventListener('push', function(event) {
     body: data.body,
     icon: '/assets/icons/icon-192x192.png'
   };
-  event.waitUntil(self.registration.showNotification(data.title, options));
+  
+  event.waitUntil(
+    self.registration.showNotification(data.title, options).then(() => {
+      // Обновление всех клиентов при появлении уведомления (включая вкладки, приложения и фоновые воркеры)
+      self.registration.update();
+    })
+  );
 });
 
 self.addEventListener('notificationclick', function(event) {
   event.notification.close();
   event.waitUntil(clients.openWindow('https://dagprogs.github.io/test/'));
 });
+
 
 // Получение данных из файла prayer-times.json для времен намазов
 fetch('js/json/prayer-times.json')
