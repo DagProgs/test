@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PWA с уведомлениями о времени намаза</title>
+</head>
+<body>
+
+  <button id="sendNotificationButton">Получить уведомление о времени намаза</button>
+
+  <script>
+    if ('serviceWorker' in navigator) {
+      window.addEventListener('load', function() {
+        navigator.serviceWorker.register('/service-worker.js')
+          .then(function(registration) {
+            console.log('ServiceWorker registration successful');
+          })
+          .catch(function(err) {
+            console.error('ServiceWorker registration failed: ', err);
+          });
+      });
+
+      Notification.requestPermission(function(status) {
+        console.log('Notification permission status:', status);
+      });
+
+      function sendPrayerNotification() {
+        if (Notification.permission === 'granted') {
+          navigator.serviceWorker.ready.then(function(registration) {
+            registration.showNotification('Проверка времени намаза', {
+              body: 'Получение времени намаза и отправка уведомления...'
+            });
+
+            // Далее можно добавить логику для отправки уведомления на основе времени из JSON файла
+            // или же непосредственно вызвать соответствующую функцию из сервис-воркера
+          });
+        }
+      }
+
+      document.getElementById('sendNotificationButton').addEventListener('click', sendPrayerNotification);
+    }
+  </script>
+</body>
+</html>
