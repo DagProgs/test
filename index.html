@@ -15,33 +15,7 @@
     <!-- Ваш контент страницы -->
     <h1>Time</h1>
 
-
-<button id="syncButton">Запустить фоновую синхронизацию</button>
-
-<script>
-        document.getElementById('syncButton').addEventListener('click', function() {
-            if ('serviceWorker' in navigator && 'SyncManager' in window) {
-                navigator.serviceWorker.ready
-                .then(function(registration) {
-                    return registration.sync.register('syncData');
-                })
-                .catch(function(err) {
-                    console.error('Не удалось зарегистрировать событие синхронизации:', err);
-                });
-            } else {
-                console.log('Синхронизация не поддерживается');
-            }
-        });
-    </script>
-
-
-
-
 <button id="pushButton">Включить уведомления</button>
-
-
-
-
 
     <script>
         document.getElementById('pushButton').addEventListener('click', function() {
