@@ -22,7 +22,7 @@ workbox.core.clientsClaim();
 workbox.precaching.precacheAndRoute([
   {
     "url": "index.html",
-    "revision": "c6f132dfc69cba28873273fb51bdd481"
+    "revision": "2fb0a5e5f896b8aed8af2ba96dbd8f1b"
   },
   {
     "url": "main.js",
@@ -101,5 +101,18 @@ workbox.routing.registerRoute(
 
 // Receive push and show a notification
 self.addEventListener('push', function(event) {
-  console.log('[Service Worker]: Received push event', event);
+    console.log('[Service Worker]: Received push event', event);
+
+    const data = event.data.json(); // Получение данных уведомления
+
+    const options = {
+        body: data.body,
+        icon: 'assets/icons/icon-192x192.png' // Замените путем к иконке вашего приложения
+        // Другие параметры уведомления
+    };
+
+    event.waitUntil(
+        self.registration.showNotification('Новое уведомление', options)
+    );
 });
+

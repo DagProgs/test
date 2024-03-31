@@ -15,6 +15,19 @@
     <!-- Ваш контент страницы -->
     <h1>Time</h1>
 
+<button id="pushButton">Включить уведомления</button>
+
+    <script>
+        document.getElementById('pushButton').addEventListener('click', function() {
+            Notification.requestPermission().then(function(permission) {
+                if (permission === 'granted') {
+                    console.log('Разрешение на уведомления получено.');
+                }
+            });
+        });
+    </script>
+
+
     <script>
         if ('serviceWorker' in navigator && 'PushManager' in window) {
             window.addEventListener('load', async () => {
