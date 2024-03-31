@@ -9,6 +9,17 @@ self.addEventListener('push', event => {
     );
 });
 
+self.addEventListener('sync', function(event) {
+    if (event.tag === 'syncData') {
+        event.waitUntil(doSync());
+    }
+});
+
+function doSync() {
+    // Placeholder для логики синхронизации данных
+    console.log('Фоновая синхронизация прошла успешно');
+}
+
 self.addEventListener('install', event => {
     self.skipWaiting();
 });
