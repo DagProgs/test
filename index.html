@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <title>Времена Намазов в Курахском районе</title>
+    <link rel="manifest" href="manifest.json" />
+    <!-- <script async src="https://cdn.jsdelivr.net/npm/pwacompat@2.0.8/pwacompat.min.js"
+        integrity="sha384-uONtBTCBzHKF84F6XvyC8S0gL8HTkAPeCyBNvfLfsqHh+Kd6s/kaS4BdmNQ5ktp1"
+        crossorigin="anonymous"></script> -->
+    <script async src="js/pwacompat.min.js"></script>
+    <script src="main.js" type="module"></script>
+</head>
+
+<body>
+    <!-- Контент вашего веб-приложения -->
+    <h1>Времена намазов сегодня:</h1>
+    <div id="fajr-name"></div>
+    <div id="fajr-time"></div>
+    <div id="sunrise-name"></div>
+    <div id="sunrise-time"></div>
+    <div id="dhuhr-name"></div>
+    <div id="dhuhr-time"></div>
+    <div id="asr-name"></div>
+    <div id="asr-time"></div>
+    <div id="maghrib-name"></div>
+    <div id="maghrib-time"></div>
+    <div id="isha-name"></div>
+    <div id="isha-time"></div>
+
+    <!-- Кнопка "Add to Home Screen" -->
+    <button onclick="addToHomeScreen()">Add to Home Screen</button>
+
+    <script>
+        // Функция для добавления веб-приложения на домашний экран
+        function addToHomeScreen() {
+            if (window.navigator && window.navigator.standalone) {
+                alert("Уже добавлено на домашний экран");
+            } else {
+                alert("Чтобы добавить приложение на домашний экран, нажмите на значок 'Поделиться' и выберите 'Добавить на экран 'Домой'");
+            }
+        }
+    </script>
+
+    
+    <script src="js/prayer-days.js"></script>
+</body>
+
+</html>
