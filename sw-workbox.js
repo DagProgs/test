@@ -1,4 +1,4 @@
-importScripts('./workbox-v4.3.1/workbox-sw.js');
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
 // SETTINGS
 
