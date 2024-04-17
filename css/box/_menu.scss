@@ -1,0 +1,46 @@
+.menu {
+    position: fixed;
+    top: 0;
+    left: -200px;
+    width: 200px;
+    height: 100%;
+    background-color: #333;
+    transition: left 0.3s;
+}
+
+.menu-toggle {
+    position: fixed;
+    top: 10px;
+    //left: 10px;
+    z-index: 1;
+    background-color: #444;
+    color: #fff;
+    border: none;
+    padding: 10px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: translateX(0);
+    transition: transform 0.3s;
+}
+
+.menu-toggle svg {
+    transition: fill 0.3s;
+}
+
+.menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.menu-list li {
+    padding: 10px;
+}
+
+.menu-list a {
+    color: #fff;
+    text-decoration: none;
+}

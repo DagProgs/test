@@ -1,0 +1,27 @@
+header {
+    position: relative;
+    height: 60px;
+}
+
+.header_container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: fixed;
+    background-color: #696969;
+    width: 100vw;
+    min-width: 320px;
+    height: 60px;
+    color: #fff;
+    padding: 0 15px 0 45px;
+
+    h1 {
+        font-size: 25px;
+        font-weight: bold;
+    }
+
+    h2 {
+        padding-top: 5px;
+        font-size: 15px;
+    }
+}
