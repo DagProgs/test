@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Qibla Compass</title>
+<style>
+  .compass {
+    width: 200px;
+    height: 200px;
+    border: 5px solid black;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    transition: transform 0.5s;
+  }
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="compass" :style="{ transform: 'rotate(' + qiblaDirection + 'deg)'}"></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+<script>
+new Vue({
+  el: '#app',
+  data: {
+    qiblaDirection: 0, // Начальное направление к qibla
+  },
+  mounted() {
+    // Добавляем возможность определения текущего направления через геолокацию или другие методы
+    navigator.geolocation.getCurrentPosition((position) => {
+      let qibla = /* рассчитать угол направления qibla из текущего местоположения */;
+      this.qiblaDirection = qibla;
+    });
+  }
+});
+</script>
+</body>
+</html>
