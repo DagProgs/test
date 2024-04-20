@@ -30,11 +30,27 @@ new Vue({
     qiblaDirection: 0, // Начальное направление к qibla
   },
   mounted() {
-    // Добавляем возможность определения текущего направления через геолокацию или другие методы
-    navigator.geolocation.getCurrentPosition((position) => {
-      let qibla = /* рассчитать угол направления qibla из текущего местоположения */;
-      this.qiblaDirection = qibla;
-    });
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition((position) => {
+        let latitude = position.coords.latitude;
+        let longitude = position.coords.longitude;
+        let kaabaLatitude = 21.4225; // Координаты Каабы
+        let kaabaLongitude = 39.8262;
+
+        let phiK = kaabaLatitude * Math.PI / 180;
+        let lambdaK = kaabaLongitude * Math.PI / 180;
+        let phi = latitude * Math.PI / 180;
+        let lambda = longitude * Math.PI / 180;
+        
+        let y = Math.sin(lambdaK - lambda);
+        let x = Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda);
+        
+        let qibla = Math.atan2(y, x) * 180 / Math.PI;
+        this.qiblaDirection = qibla;
+      });
+    } else {
+      alert("Ваш браузер не поддерживает геолокацию");
+    }
   }
 });
 </script>
