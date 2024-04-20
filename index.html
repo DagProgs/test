@@ -5,61 +5,53 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Qibla Compass</title>
 <style>
-  .compass {
-    width: 200px;
-    height: 200px;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) rotate(0deg);
-    transition: transform 0.5s;
-  }
-  .arrow {
-    width: 10px;
-    height: 40px;
-    background: black;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -100%) rotate(0deg);
-  }
+#compass {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background: linear-gradient(to right, #3498db, #e74c3c);
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 24px;
+  color: #fff;
+}
 </style>
 </head>
 <body>
-<div id="app">
-  <div class="compass">
-    <div class="arrow"></div>
-    <img src="https://i.imgur.com/DV6E958.png" alt="Qibla Compass">
-  </div>
-</div>
-<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
+<div id="compass"></div>
 <script>
-new Vue({
-  el: '#app',
-  data: {
-    qiblaDirection: 0, // Начальное направление к qibla
-  },
-  mounted() {
-    if (navigator.geolocation) {
-      navigator.geolocation.getCurrentPosition((position) => {
-        let latitude = position.coords.latitude;
-        let longitude = position.coords.longitude;
-        let kaabaLatitude = 21.4225; // Координаты Каабы
-        let kaabaLongitude = 39.8262;
+const compass = document.getElementById('compass');
 
-        let y = Math.sin(longitude - kaabaLongitude);
-        let x = Math.cos(kaabaLatitude) * Math.tan(latitude) - Math.sin(kaabaLatitude) * Math.cos(longitude - kaabaLongitude);
-        
-        let qibla = Math.atan2(y, x) * 180 / Math.PI;
-        qibla = qibla >= 0 ? qibla : (qibla + 360);
-        this.qiblaDirection = -qibla; // Делаем обратный поворот, так как 0 градусов находится на верху
-        document.querySelector('.arrow').style.transform = `translate(-50%, -100%) rotate(${qibla}deg)`;
-      });
-    } else {
-      alert("Ваш браузер не поддерживает геолокацию");
-    }
+function getQiblaAngle(latitude, longitude) {
+  const qiblaLatitude = 21.422487; // Координаты Каабы в Мекке
+  const qiblaLongitude = 39.826206;
+
+  const y = Math.sin(qiblaLongitude - longitude) * Math.cos(qiblaLatitude);
+  const x = Math.cos(latitude) * Math.sin(qiblaLatitude) - Math.sin(latitude) * Math.cos(qiblaLatitude) * Math.cos(qiblaLongitude - longitude);
+  const angle = Math.atan2(y, x) * (180/Math.PI);
+  
+  compass.style.transform = `rotate(${angle}deg)`;
+  compass.innerText = `Qibla: ${angle.toFixed(2)}°`;
+}
+
+function getLocation() {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition(position => {
+      const latitude = position.coords.latitude;
+      const longitude = position.coords.longitude;
+      getQiblaAngle(latitude, longitude);
+    });
+  } else {
+    compass.innerText = "Геолокация не поддерживается";
   }
-});
+}
+
+getLocation();
 </script>
 </body>
 </html>
