@@ -15,6 +15,8 @@
     left: 50%;
     transform: translate(-50%, -50%);
     transition: transform 0.5s;
+    background-image: url('https://i.imgur.com/DV6E958.png');
+    background-size: cover;
   }
 </style>
 </head>
@@ -37,16 +39,12 @@ new Vue({
         let kaabaLatitude = 21.4225; // Координаты Каабы
         let kaabaLongitude = 39.8262;
 
-        let phiK = kaabaLatitude * Math.PI / 180;
-        let lambdaK = kaabaLongitude * Math.PI / 180;
-        let phi = latitude * Math.PI / 180;
-        let lambda = longitude * Math.PI / 180;
-        
-        let y = Math.sin(lambdaK - lambda);
-        let x = Math.cos(phi) * Math.tan(phiK) - Math.sin(phi) * Math.cos(lambdaK - lambda);
+        let y = Math.sin(longitude - kaabaLongitude);
+        let x = Math.cos(kaabaLatitude) * Math.tan(latitude) - Math.sin(kaabaLatitude) * Math.cos(longitude - kaabaLongitude);
         
         let qibla = Math.atan2(y, x) * 180 / Math.PI;
-        this.qiblaDirection = qibla;
+        qibla = qibla >= 0 ? qibla : (qibla + 360);
+        this.qiblaDirection = -qibla; // Делаем обратный поворот, так как 0 градусов находится на верху
       });
     } else {
       alert("Ваш браузер не поддерживает геолокацию");
