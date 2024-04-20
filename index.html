@@ -8,21 +8,29 @@
   .compass {
     width: 200px;
     height: 200px;
-    border: 5px solid black;
-    border-radius: 50%;
     position: absolute;
     top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%) rotate(0deg);
     transition: transform 0.5s;
-    background-image: url('https://i.imgur.com/DV6E958.png');
-    background-size: cover;
+  }
+  .arrow {
+    width: 10px;
+    height: 40px;
+    background: black;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -100%) rotate(0deg);
   }
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="compass" :style="{ transform: 'rotate(' + qiblaDirection + 'deg)'}"></div>
+  <div class="compass">
+    <div class="arrow"></div>
+    <img src="https://i.imgur.com/DV6E958.png" alt="Qibla Compass">
+  </div>
 </div>
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11/dist/vue.min.js"></script>
 <script>
@@ -45,6 +53,7 @@ new Vue({
         let qibla = Math.atan2(y, x) * 180 / Math.PI;
         qibla = qibla >= 0 ? qibla : (qibla + 360);
         this.qiblaDirection = -qibla; // Делаем обратный поворот, так как 0 градусов находится на верху
+        document.querySelector('.arrow').style.transform = `translate(-50%, -100%) rotate(${qibla}deg)`;
       });
     } else {
       alert("Ваш браузер не поддерживает геолокацию");
