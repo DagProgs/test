@@ -3,7 +3,9 @@
 
 <head>
   <script src="js/sections.js"></script>
-  <div id="head"></div>
+  <script>
+    loadHTML('sections/head.html', 'head');
+  </script>
 </head>
 
 <body>
@@ -12,7 +14,6 @@
   <div id="footer"></div>
   
   <script>
-    loadHTML('sections/head.html', 'head');
     loadHTML('sections/header.html', 'header');
     loadHTML('sections/main.html', 'main');
     loadHTML('sections/footer.html', 'footer');
