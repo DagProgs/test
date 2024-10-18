@@ -102,56 +102,95 @@ legend {
   display: block;
 }
 
-main {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  background-color: #021f30;
+body {
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  font-size: 10px;
+  color: #000;
 }
 
-.main_container {
+a {
+  color: #000;
+}
+
+header {
+  position: relative;
+  height: 60px;
+  z-index: 1;
+}
+
+.header_container {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  width: 100vw;
+  min-width: 320px;
+  height: 60px;
+  background-color: #fff;
+  border-bottom: 1px solid #000;
+}
+.header_container .menu_name {
+  display: flex;
+  align-items: center;
+}
+.header_container .menu_name .menu_icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 60px;
+  height: 60px;
+}
+.header_container .menu_name .menu_icon svg {
+  width: 30px;
+  height: 30px;
+  border: 1px solid #000;
+}
+.header_container .menu_name h1 {
+  display: flex;
+  flex-direction: column;
+  font-size: 2.4em;
+  font-weight: bold;
+}
+.header_container .menu_name h1 span {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 0.4em;
+  font-weight: normal;
+  color: #c7c7c7;
+}
+.header_container h2 {
+  display: flex;
+  align-items: center;
+  height: 55px;
+  font-size: 1.2em;
+  color: #259469;
+  padding: 0 15px;
+}
+
+footer {
+  position: relative;
+}
+
+.footer_container {
   display: flex;
   align-items: center;
   justify-content: space-around;
-  position: absolute;
-  left: 15px;
-  right: 15px;
-  width: calc(100vw - 30px);
-  height: 100vh;
-}
-.main_container img {
-  padding: 10px 5px;
-  width: 135px;
-  border-radius: 10px;
-}
-.main_container .img1 {
-  background-color: #fff;
-}
-.main_container .img2 {
-  background-color: #000;
-}
-
-.white,
-.black {
-  position: relative;
-}
-
-.white_container {
-  position: absolute;
+  position: fixed;
+  bottom: 0;
   width: 100vw;
-  min-height: 100vh;
-  background-color: #fff;
+  height: 50px;
+  border-top: 1px solid #000;
 }
-.white_container img {
-  padding: 15px;
+.footer_container .times_menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-.black_container {
-  position: absolute;
-  width: 100vw;
-  min-height: 100vh;
-  background-color: #000;
+.footer_container .times_menu svg {
+  width: 25px;
+  height: 25px;
+  margin: 5px;
+  border: 1px solid #000;
 }
-.black_container img {
-  padding: 15px;
+.footer_container .times_menu h3 {
+  font-size: 1.1em;
 }/*# sourceMappingURL=style.css.map */
