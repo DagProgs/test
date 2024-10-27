@@ -1,23 +1,31 @@
 <!DOCTYPE html>
-<html lang="ru">
+<html lang="en">
 
 <head>
-  <script src="js/sections.js"></script>
-  <script>
-    loadHTML('sections/head.html', 'head');
-  </script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="style.css">
+  <title>Document</title>
 </head>
 
 <body>
-  <div id="header"></div>
-  <div id="main"></div>
-  <div id="footer"></div>
-  
-  <script>
-    loadHTML('sections/header.html', 'header');
-    loadHTML('sections/main.html', 'main');
-    loadHTML('sections/footer.html', 'footer');
-  </script>
+
+
+  <div class="wrapper">
+    
+    <button class="btn">Переключить режим</button>
+
+  </div>
+
+
+  <!--
+  <picture>
+    <source srcset="light-image.jpg" media="(prefers-color-scheme: light)" />
+    <source srcset="dark-image.jpg" media="(prefers-color-scheme: dark)" />
+    <img src="light-image.jpg" />
+  </picture>
+-->
+  <script src="script.js"></script>
 </body>
 
 </html>
