@@ -1,15 +1,45 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="style.css">
-  <link rel="manifest" href="manifest.json">
-  <title>Document</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#ffffff" id="theme-color">
+    <link rel="manifest" href="manifest.json">
+    <title>PWA Theme Color Example</title>
+    <style>
+        body {
+            transition: background-color 0.3s, color 0.3s;
+        }
+        body.light {
+            background-color: #ffffff;
+            color: #000000;
+        }
+        body.dark {
+            background-color: #000000;
+            color: #ffffff;
+        }
+    </style>
 </head>
-<body>
-  <h1>Text</h1>
-  <button class="btn">Переключить режим</button>
-  <script src="script.js"></script>
+<body class="light">
+    <h1>Hello, PWA!</h1>
+    <button id="toggle-theme">Toggle Theme</button>
+
+    <script>
+        const themeColorMetaTag = document.getElementById('theme-color');
+        const toggleButton = document.getElementById('toggle-theme');
+        const body = document.body;
+
+        toggleButton.addEventListener('click', () => {
+            if (body.classList.contains('light')) {
+                body.classList.remove('light');
+                body.classList.add('dark');
+                themeColorMetaTag.setAttribute('content', '#000000'); // Цвет для темной темы
+            } else {
+                body.classList.remove('dark');
+                body.classList.add('light');
+                themeColorMetaTag.setAttribute('content', '#ffffff'); // Цвет для светлой темы
+            }
+        });
+    </script>
 </body>
 </html>
