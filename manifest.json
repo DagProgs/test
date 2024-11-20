@@ -6,15 +6,15 @@
   "background_color": "#ffffff",
   "theme_color": "#ffffff",
   "description": "This is a sample Progressive Web App.",
-  "icons": [
+  "splash_screens": [
     {
-      "src": "icons/icon-192x192.png",
-      "sizes": "192x192",
+      "src": "images/splash-1920x1080.png",
+      "sizes": "1920x1080",
       "type": "image/png"
     },
     {
-      "src": "icons/icon-512x512.png",
-      "sizes": "512x512",
+      "src": "images/splash-1280x720.png",
+      "sizes": "1280x720",
       "type": "image/png"
     }
   ],
