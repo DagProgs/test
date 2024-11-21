@@ -19,10 +19,12 @@ function updateCompass() {
             const needle = document.getElementById('needle');
             needle.style.transform = `translateX(-50%) rotate(${direction}deg)`;
             document.getElementById('direction').innerText = `Направление к Каабе: ${direction.toFixed(2)}°`;
+        }, () => {
+            alert("Не удалось получить ваше местоположение.");
         });
     } else {
         alert("Геолокация не поддерживается вашим браузером.");
     }
 }
 
-window.onload = updateCompass;
+document.getElementById('locationButton').addEventListener('click', updateCompass);

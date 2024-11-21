@@ -15,6 +15,7 @@ body {
   border-radius: 50%;
   position: relative;
   overflow: hidden;
+  margin-bottom: 20px; /* Отступ между компасом и кнопкой */
 }
 
 #needle {
@@ -26,6 +27,12 @@ body {
   left: 50%;
   transform-origin: bottom;
   transform: translateX(-50%);
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 16px;
+  cursor: pointer;
 }
 
 #direction {
