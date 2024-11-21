@@ -1,6 +1,8 @@
 const kaabaCoordinates = { lat: 21.4225, lon: 39.8262 }; // Координаты Каабы
 const needle = document.getElementById('needle');
 const directionText = document.getElementById('direction');
+const locationButton = document.getElementById('locationButton');
+let watchingPosition = false; // Переменная для отслеживания состояния геолокации
 
 function getBearing(lat1, lon1, lat2, lon2) {
     const toRadians = (degrees) => degrees * (Math.PI / 180);
@@ -28,10 +30,18 @@ function updateCompass(event) {
 
 function handleError(error) {
     console.error('Ошибка геолокации: ', error);
+    alert('Не удалось получить ваше местоположение. Пожалуйста, проверьте настройки геолокации.');
 }
 
-if (navigator.geolocation) {
-    navigator.geolocation.watchPosition(updateCompass, handleError);
-} else {
-    alert('Геолокация не поддерживается вашим браузером.');
+function startGeolocation() {
+    if (navigator.geolocation && !watchingPosition) {
+        watchingPosition = true; // Устанавливаем флаг, что геолокация включена
+        navigator.geolocation.watchPosition(updateCompass, handleError);
+        locationButton.disabled = true; // Отключаем кнопку после нажатия
+        locationButton.innerText = 'Геолокация включена';
+    } else {
+        alert('Геолокация уже включена или не поддерживается вашим браузером.');
+    }
 }
+
+locationButton.addEventListener('click', startGeolocation);
