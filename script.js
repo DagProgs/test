@@ -1,41 +1,28 @@
-// Координаты Каабы
-const kaabaLatitude = 21.4225;  // Широта Каабы
-const kaabaLongitude = 39.8262; // Долгота Каабы
+function getDirectionToKaaba() {
+  const kaabaLat = 21.4225;
+  const kaabaLon = 39.8262;
 
-// Функция для вычисления направления к Каабе
-function getDirectionToKaaba(lat, lon) {
-    const deltaLon = kaabaLongitude - lon;
-    const x = Math.cos(kaabaLatitude * Math.PI / 180) * Math.sin(deltaLon * Math.PI / 180);
-    const y = Math.cos(lat * Math.PI / 180) * Math.sin(kaabaLatitude * Math.PI / 180) -
-              Math.sin(lat * Math.PI / 180) * Math.cos(kaabaLatitude * Math.PI / 180) * Math.cos(deltaLon * Math.PI / 180);
-    const angle = Math.atan2(x, y) * (180 / Math.PI);
-    return (angle + 360) % 360; // Приводим угол к диапазону [0, 360]
+  // Получаем текущее местоположение пользователя
+  if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(position => {
+          const userLat = position.coords.latitude;
+          const userLon = position.coords.longitude;
+
+          // Рассчитываем направление
+          const deltaLon = kaabaLon - userLon;
+          const y = Math.sin(deltaLon) * Math.cos(kaabaLat);
+          const x = Math.cos(userLat) * Math.sin(kaabaLat) - 
+                    Math.sin(userLat) * Math.cos(kaabaLat) * Math.cos(deltaLon);
+          const angle = Math.atan2(y, x) * (180 / Math.PI);
+
+          // Устанавливаем угол стрелки
+          const needle = document.getElementById('needle');
+          needle.style.transform = `rotate(${angle}deg)`;
+      });
+  } else {
+      alert("Геолокация не поддерживается вашим браузером.");
+  }
 }
 
-// Функция для обновления компаса
-function updateCompass() {
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-            (position) => {
-                const lat = position.coords.latitude;
-                const lon = position.coords.longitude;
-                const direction = getDirectionToKaaba(lat, lon);
-                
-                // Обновляем компас
-                const needle = document.getElementById('needle');
-                needle.style.transform = `translateX(-50%) rotate(${direction}deg)`;
-                
-                // Обновляем текст направления
-                document.getElementById('direction').innerText = `Направление к Каабе: ${direction.toFixed(2)}°`;
-            },
-            (error) => {
-                alert("Не удалось получить ваше местоположение: " + error.message);
-            }
-        );
-    } else {
-        alert("Геолокация не поддерживается вашим браузером.");
-    }
-}
-
-// Добавляем обработчик события на кнопку
-document.getElementById('locationButton').addEventListener('click', updateCompass);
+// Запускаем функцию
+getDirectionToKaaba();
