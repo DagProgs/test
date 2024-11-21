@@ -10,14 +10,15 @@ function getDirectionToKaaba() {
 
             // Рассчитываем направление
             const deltaLon = kaabaLon - userLon;
-            const y = Math.sin(deltaLon) * Math.cos(kaabaLat);
-            const x = Math.cos(userLat) * Math.sin(kaabaLat) - 
-                      Math.sin(userLat) * Math.cos(kaabaLat) * Math.cos(deltaLon);
+
+            const y = Math.sin(deltaLon * Math.PI / 180) * Math.cos(kaabaLat * Math.PI / 180);
+            const x = Math.cos(userLat * Math.PI / 180) * Math.sin(kaabaLat * Math.PI / 180) - 
+                      Math.sin(userLat * Math.PI / 180) * Math.cos(kaabaLat * Math.PI / 180) * Math.cos(deltaLon * Math.PI / 180);
             const angle = Math.atan2(y, x) * (180 / Math.PI);
 
-            // Устанавливаем угол стрелки
+            // Устанавливаем угол стрелки. Добавляем 180 градусов, чтобы стрелка указывала в нужном направлении.
             const needle = document.getElementById('needle');
-            needle.style.transform = `rotate(${angle}deg)`;
+            needle.style.transform = `rotate(${angle + 180}deg)`;
         });
     } else {
         alert("Геолокация не поддерживается вашим браузером.");
