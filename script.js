@@ -1,36 +1,37 @@
-let darkModeState = false;
-const button = document.querySelector(".btn");
-const useDark = window.matchMedia("(prefers-color-scheme: dark)");
-const themeColorMeta = document.getElementById("theme-color");
+const kaabaCoordinates = { lat: 21.4225, lon: 39.8262 }; // Координаты Каабы
+const needle = document.getElementById('needle');
+const directionText = document.getElementById('direction');
 
-// Функция для переключения темной темы
-function toggleDarkMode(state) {
-  document.documentElement.classList.toggle("dark-mode", state);
-  darkModeState = state;
-  
-  // Обновление цвета темы
-  if (state) {
-    themeColorMeta.setAttribute("content", "#000000"); // Темная тема
-  } else {
-    themeColorMeta.setAttribute("content", "#ffffff"); // Светлая тема
-  }
+function getBearing(lat1, lon1, lat2, lon2) {
+    const toRadians = (degrees) => degrees * (Math.PI / 180);
+    const toDegrees = (radians) => radians * (180 / Math.PI);
+
+    const dLon = toRadians(lon2 - lon1);
+    const lat1Rad = toRadians(lat1);
+    const lat2Rad = toRadians(lat2);
+
+    const x = Math.sin(dLon) * Math.cos(lat2Rad);
+    const y = Math.cos(lat1Rad) * Math.sin(lat2Rad) - 
+              Math.sin(lat1Rad) * Math.cos(lat2Rad) * Math.cos(dLon);
+    const bearing = toDegrees(Math.atan2(x, y));
+
+    return (bearing + 360) % 360; // Приведение к положительному значению
 }
 
-// Функция для сохранения состояния в локальное хранилище
-function setDarkModeLocalStorage(state) {
-  localStorage.setItem("dark-mode", state);
+function updateCompass(event) {
+    const { latitude, longitude } = event.coords;
+    const bearing = getBearing(latitude, longitude, kaabaCoordinates.lat, kaabaCoordinates.lon);
+    
+    needle.style.transform = `translateX(-50%) rotate(${-bearing}deg)`;
+    directionText.innerText = `Направление на Каабу: ${bearing.toFixed(2)}°`;
 }
 
-// Установка начального состояния темной темы из локального хранилища
-const savedDarkModeState = localStorage.getItem("dark-mode") === "true";
-toggleDarkMode(savedDarkModeState);
+function handleError(error) {
+    console.error('Ошибка геолокации: ', error);
+}
 
-// Обработчик изменения предпочтений системы
-useDark.addEventListener("change", (evt) => toggleDarkMode(evt.matches));
-
-// Обработчик клика по кнопке
-button.addEventListener("click", () => {
-  darkModeState = !darkModeState;
-  toggleDarkMode(darkModeState);
-  setDarkModeLocalStorage(darkModeState);
-});
+if (navigator.geolocation) {
+    navigator.geolocation.watchPosition(updateCompass, handleError);
+} else {
+    alert('Геолокация не поддерживается вашим браузером.');
+}
