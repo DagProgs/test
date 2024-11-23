@@ -2,23 +2,157 @@
 <html lang="ru">
 
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json">
-  <title>Компас на Каабу</title>
-  <link rel="stylesheet" href="styles.css">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="manifest" href="manifest.json">
+    <title>Мобильное приложение</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column;
+            height: 100vh;
+        }
+
+        .main-content {
+            flex: 1; /* Занимает оставшееся пространство */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+            background-color: #fff;
+            overflow: hidden; /* Скрывает лишнее содержимое */
+        }
+
+        .tab-content {
+            display: none; /* Скрываем все вкладки по умолчанию */
+            width: 100%; /* Занимает всю ширину */
+        }
+
+        .tab-content.active {
+            display: block; /* Показываем активную вкладку */
+        }
+
+        .tabs {
+            display: flex;
+            justify-content: space-around;
+            background-color: #007bff;
+            padding: 10px 0;
+            position: relative; /* Для позиционирования линии */
+        }
+
+        .tab-button {
+            background-color: #ffffff;
+            border: none;
+            color: #007bff;
+            padding: 10px 20px;
+            font-size: 16px;
+            cursor: pointer;
+            position: relative; /* Для позиционирования линии */
+        }
+
+        .tab-button:hover {
+            background-color: #e7e7e7;
+        }
+
+        .active-line {
+            height: 4px;
+            background-color: red;
+            position: absolute;
+            bottom: 0;
+            transition: left 0.3s ease, width 0.3s ease; /* Плавный переход */
+        }
+    </style>
 </head>
 
 <body>
-  
-  
+    <div class="container">
+        <div class="header">
+            <h1 id="header-title"></h1>
+        </div>
+        <div class="main-content" id="main-content">
+            <div id="tab1" class="tab-content">
+                <p>Содержимое для первой вкладки.</p>
+            </div>
+            <div id="tab2" class="tab-content">
+                <p>Содержимое для второй вкладки.</p>
+            </div>
+            <div id="tab3" class="tab-content">
+                <p>Содержимое для третьей вкладки.</p>
+            </div>
+        </div>
+        <div class="tabs">
+            <button class="tab-button" onclick="showTab(1)">Tab 1</button>
+            <button class="tab-button" onclick="showTab(2)">Tab 2</button>
+            <button class="tab-button" onclick="showTab(3)">Tab 3</button>
+        </div>
+        <div id="active-line" class="active-line"></div>
+    </div>
 
+    <script>
+        let activeTab = 1; // Переменная для отслеживания активной вкладки
 
+        function showTab(tabNumber) {
+            const tabContents = document.querySelectorAll('.tab-content');
+            const activeLine = document.getElementById('active-line');
+            const tabButtons = document.querySelectorAll('.tab-button');
 
+            // Скрываем все вкладки
+            tabContents.forEach(tab => {
+                tab.style.display = 'none';
+            });
 
+            // Показываем выбранную вкладку
+            document.getElementById(`tab${tabNumber}`).style.display = 'block';
 
+            // Обновляем заголовок в зависимости от выбранной вкладки
+            const headerTitle = document.getElementById('header-title');
+            headerTitle.textContent = 'Tab ' + tabNumber;
 
-<script src="script.js"></script>
+            // Позиционирование красной линии
+            const activeButton = tabButtons[tabNumber - 1];
+            activeLine.style.left = `${activeButton.offsetLeft}px`;
+            activeLine.style.width = `${activeButton.offsetWidth}px`;
+
+            activeTab = tabNumber; // Обновляем активную вкладку
+        }
+
+        // Вызываем функцию для отображения содержимого первой вкладки при загрузке страницы
+        document.addEventListener("DOMContentLoaded", function () {
+            showTab(1);
+        });
+
+        // Свайп для переключения вкладок
+        let startX = 0;
+
+        document.addEventListener('touchstart', function (event) {
+            startX = event.touches[0].clientX;
+        });
+
+        document.addEventListener('touchend', function (event) {
+            const endX = event.changedTouches[0].clientX;
+            const diffX = endX - startX;
+
+            if (diffX > 50) {
+                // Свайп вправо
+                if (activeTab > 1) {
+                    showTab(activeTab - 1);
+                }
+            } else if (diffX < -50) {
+                // Свайп влево
+                if (activeTab < 3) {
+                    showTab(activeTab + 1);
+                }
+            }
+        });
+    </script>
 </body>
 
 </html>
