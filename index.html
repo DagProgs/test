@@ -7,18 +7,34 @@
   <link rel="manifest" href="manifest.json" />
   <title>Кубик</title>
   <style>
+    * {
+      padding: 0;
+      margin: 0;
+      box-sizing: border-box;
+    }
+
     body {
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 100vw;
       height: 100vh;
       background-color: #0053c0;
+      background-image: url("fon.jpg");
+      background-position: top;
+      background-size: 100vw auto;
+      background-repeat: repeat-y;
+      backdrop-filter: brightness(50%) blur(1px);
+
       font-family: Arial, sans-serif;
+
     }
 
     #app {
       text-align: center;
     }
+
+
 
     .dice {
       width: 200px;
@@ -35,10 +51,18 @@
       cursor: pointer;
       transition: background-color 0.3s;
       color: #ffffff;
-      box-shadow: 0 0 50px rgba(124, 124, 124, 0.562);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.788);
     }
 
-    
+
+    .dice:not(:active) {
+      transition: background-color 2000ms step-end;
+    }
+
+    .dice:active {
+      background: red;
+    }
+
 
     .timer {
       font-size: 2em;
@@ -49,7 +73,7 @@
 </head>
 
 <body>
-  <div id="app">
+  <div id="app" class="app">
     <div class="timer" v-if="isRolling">{{ countdown }} сек</div>
     <div class="dice" @click="rollDice">{{ currentValue }}</div>
     <audio ref="diceSound" src="audio.mp3"></audio> <!-- Укажите путь к вашему звуковому файлу -->
