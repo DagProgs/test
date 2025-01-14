@@ -4,53 +4,92 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#ffffff" id="theme-color">
-  <link rel="stylesheet" href="css/reset.css">
-  <link rel="stylesheet" href="css/styles.css">
-  <link rel="manifest" href="manifest.json">
-  <title>Рузнама Курахский район</title>
-  <script src="js/jquery-3.6.0.min.js"></script>
+  <link rel="manifest" href="manifest.json" />
+  <title>Кубик</title>
+  <style>
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      background-color: #0053c0;
+      font-family: Arial, sans-serif;
+    }
+
+    #app {
+      text-align: center;
+    }
+
+    .dice {
+      width: 200px;
+      height: 200px;
+      background-color: #2b2b2b;
+      border: 20px solid #f1f1f1;
+      border-radius: 30px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 10em;
+      font-weight: bold;
+      margin-bottom: 20px;
+      cursor: pointer;
+      transition: background-color 0.3s;
+      color: #ffffff;
+      box-shadow: 0 0 50px rgba(124, 124, 124, 0.562);
+    }
+
+    .dice:hover {
+      background-color: #e0e0e0;
+    }
+
+    .timer {
+      font-size: 2em;
+      color: #ffffff;
+      margin-bottom: 10px;
+    }
+  </style>
 </head>
 
 <body>
-  <div class="app">
-    <!-- Header -->
-    <header>
-        <div class="header_content">
-            <h1>Курахский район</h1>
-            <p id="header-title-tabs">Названия tabs</p>
-        </div>
-    </header>
-    <!-- Main -->
-    <main>
-        <div class="main_content">
-            <div id="tab1" class="main_tab_content">
-                <p>Содержимое для первой вкладки.</p>
-            </div>
-            <div id="tab2" class="main_tab_content" style="display: none;">
-                <p>Содержимое для второй вкладки.</p>
-            </div>
-            <div id="tab3" class="main_tab_content" style="display: none;">
-                <p>Содержимое для третьей вкладки.</p>
-            </div>
-        </div>
-    </main>
-    <!-- Footer -->
-    <footer>
-        <div class="footer_content">
-            <div class="footer_tabs">
-                <button class="footer_tab_button">День</button>
-                <button class="footer_tab_button">Месяц</button>
-                <button class="footer_tab_button">Год</button>
-            </div>
-            <div id="footer-active-line" class="footer_active_line" style="position: absolute; height: 2px; background: red;"></div>
-        </div>
-    </footer>
-</div>
+  <div id="app">
+    <div class="timer" v-if="isRolling">{{ countdown }} сек</div>
+    <div class="dice" @click="rollDice">{{ currentValue }}</div>
+    <audio ref="diceSound" src="audio.mp3"></audio> <!-- Укажите путь к вашему звуковому файлу -->
+  </div>
+  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
+  <script>
+    new Vue({
+      el: '#app',
+      data: {
+        currentValue: 1,
+        countdown: 2,
+        isRolling: false,
+        timer: null
+      },
+      methods: {
+        rollDice() {
+          if (this.isRolling) return; // Не позволяем кликать, если идет таймер
+          this.isRolling = true;
+          this.countdown = 2;
 
-  <button class="btn">Переключить режим</button>
-  <script src="js/theme.js"></script>
-  <script src="js/tabs.js"></script>
+          // Воспроизводим звук
+          this.$refs.diceSound.play();
+
+          this.timer = setInterval(() => {
+            this.countdown -= 1;
+            if (this.countdown <= 0) {
+              clearInterval(this.timer);
+              this.currentValue = Math.floor(Math.random() * 6) + 1;
+              this.isRolling = false;
+            }
+          }, 1000);
+        }
+      },
+      beforeDestroy() {
+        clearInterval(this.timer); // Очищаем таймер при уничтожении компонента
+      }
+    });
+  </script>
 </body>
 
 </html>
