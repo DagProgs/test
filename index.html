@@ -84,7 +84,7 @@
       el: '#app',
       data: {
         currentValue: 1,
-        countdown: 2,
+        countdown: 1,
         isRolling: false,
         timer: null
       },
@@ -92,7 +92,7 @@
         rollDice() {
           if (this.isRolling) return; // Не позволяем кликать, если идет таймер
           this.isRolling = true;
-          this.countdown = 2;
+          this.countdown = 1;
 
           // Воспроизводим звук
           this.$refs.diceSound.play();
@@ -101,7 +101,7 @@
             this.countdown -= 1;
             if (this.countdown <= 0) {
               clearInterval(this.timer);
-              this.currentValue = Math.floor(Math.random() * 8) + 1;
+              this.currentValue = Math.floor(Math.random() * 10) + 1;
               this.isRolling = false;
             }
           }, 1000);
