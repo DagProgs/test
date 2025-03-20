@@ -1,117 +1,20 @@
 <!DOCTYPE html>
 <html lang="ru">
-
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="manifest" href="manifest.json" />
-  <title>Кубик</title>
-  <style>
-    * {
-      padding: 0;
-      margin: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100vw;
-      height: 100vh;
-      background-color: #0053c0;
-      background-image: url("fon.jpg");
-      background-position: top;
-      background-size: 100vw auto;
-      background-repeat: repeat-y;
-      backdrop-filter: brightness(50%) blur(1px);
-
-      font-family: Arial, sans-serif;
-
-    }
-
-    #app {
-      text-align: center;
-    }
-
-
-
-    .dice {
-      width: 200px;
-      height: 200px;
-      background-color: #2b2b2b;
-      border: 20px solid #f1f1f1;
-      border-radius: 30px;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      font-size: 10em;
-      font-weight: bold;
-      margin-bottom: 20px;
-      cursor: pointer;
-      transition: background-color 0.3s;
-      color: #ffffff;
-      box-shadow: 0 0 50px rgba(0, 0, 0, 0.788);
-    }
-
-
-    .dice:not(:active) {
-      transition: background-color 2000ms step-end;
-    }
-
-    .dice:active {
-      background: red;
-    }
-
-
-    .timer {
-      font-size: 2em;
-      color: #ffffff;
-      margin-bottom: 10px;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Моя Веб-Страница</title>
+    <link rel="stylesheet" href="styles.css">
 </head>
-
 <body>
-  <div id="app" class="app">
-    <div class="timer" v-if="isRolling">{{ countdown }} сек</div>
-    <div class="dice" @click="rollDice">{{ currentValue }}</div>
-    <audio ref="diceSound" src="audio.mp3"></audio> <!-- Укажите путь к вашему звуковому файлу -->
-  </div>
-  <script src="https://cdn.jsdelivr.net/npm/vue@2"></script>
-  <script>
-    new Vue({
-      el: '#app',
-      data: {
-        currentValue: 1,
-        countdown: 1,
-        isRolling: false,
-        timer: null
-      },
-      methods: {
-        rollDice() {
-          if (this.isRolling) return; // Не позволяем кликать, если идет таймер
-          this.isRolling = true;
-          this.countdown = 1;
-
-          // Воспроизводим звук
-          this.$refs.diceSound.play();
-
-          this.timer = setInterval(() => {
-            this.countdown -= 1;
-            if (this.countdown <= 0) {
-              clearInterval(this.timer);
-              this.currentValue = Math.floor(Math.random() * 10) + 1;
-              this.isRolling = false;
-            }
-          }, 1000);
-        }
-      },
-      beforeDestroy() {
-        clearInterval(this.timer); // Очищаем таймер при уничтожении компонента
-      }
-    });
-  </script>
+  <h1>ddfdf</h1>
+    <div id="overlay" style="display: none;">
+        <div id="content">
+            <h1 id="title"></h1>
+            <img id="image" src="" alt="Картинка" />
+            <p id="text"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
 </body>
-
 </html>
