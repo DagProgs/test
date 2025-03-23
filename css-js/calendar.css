@@ -1,0 +1,180 @@
+.main_calendar {
+  background-color: #f1f1f1;
+  padding: 10px;
+  border-radius: 10px;
+  margin: 5px 0;
+}
+
+.main_calendar .active {
+  color: #000;
+  font-weight: bold;
+}
+
+.main_calendar .icon img {
+  width: 20px;
+  min-width: 20px;
+  height: 20px;
+}
+
+.main_calendar .days-of-week {
+  border-bottom: 1px solid #cacaca;
+  padding-bottom: 5px;
+}
+
+.main_calendar .days-of-week {
+  color: #cacaca;
+  display: flex;
+  justify-content: space-around;
+  gap: 5px;
+  font-size: 1em;
+}
+
+.main_calendar .time {
+  display: flex;
+  justify-content: center;
+  font-size: 2em;
+  gap: 5px;
+}
+
+.main_calendar .date {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 1.5em;
+  margin: 9px 0 0 0;
+}
+
+/*Calendar Full*/
+.calendar_full_year {
+  min-width: 320px;
+}
+
+.calendar_full_year .calendar-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.calendar_full_year .current-month {
+  background: white;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.185);
+  padding: 15px;
+  margin-bottom: 20px;
+  border-bottom: 2px solid #000;
+}
+
+.calendar_full_year .month {
+  background: #fff;
+  padding: 15px;
+  margin: 5px;
+  width: 100vw;
+  min-width: 320px;
+}
+
+.calendar_full_year .current-month {
+  background-color: #f1f1f1;
+}
+
+
+.calendar_full_year .month h2 {
+  display: flex;
+  justify-content: center;
+  font-size: 1.8em;
+  font-weight: bold;
+}
+
+.calendar_full_year .days {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  margin-top: 10px;
+}
+
+.calendar_full_year .day {
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #ebebeb;
+  font-size: 1.5em;
+}
+
+.calendar_full_year .day.empty {
+  background: #f1f1f1;
+}
+
+.calendar_full_year .today {
+  background-color: #dde2ee;
+  font-weight: bold;
+  color: #000;
+}
+
+.calendar_full_year .weekdays {
+  display: contents;
+}
+
+.calendar_full_year .weekday {
+  font-weight: bold;
+  text-align: center;
+  font-size: 1.5em;
+}
+
+.calendar_full_year .weekend {
+  color: red;
+}
+
+.calendar_full_year .month:not(.current-month) .weekend {
+  color: black;
+}
+
+
+.calendar_full_year .month-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 50vw;
+  height: auto;
+}
+
+.calendar_full_day {
+  position: sticky;
+  top: 59px;
+  display: flex;
+  justify-content: center;
+  font-size: 1.1em;
+  min-width: 320px;
+  background-color: #fff;
+  border-bottom: 2px solid #000;
+  padding: 5px 0;
+}
+
+/*AR*/
+.calendar {}
+
+.square {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  font-size: 1.3em;
+  margin: 5px 0;
+}
+
+.square p {
+  font-weight: bold;
+}
+
+.square div ~ p {
+  font-weight: normal;
+}
+
+.name_mounth {
+}
+
+.name_day {
+  font-weight: bold;
+}
+
+.name_year {
+}

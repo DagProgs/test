@@ -1,0 +1,44 @@
+.main_prayer_text .modal {
+  display: none;
+  position: fixed;
+  z-index: 10;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(255, 255, 255, 0.863);
+}
+
+.main_prayer_text .modal-content {
+  background-color: #fefefe;
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  border-radius: 10px;
+  box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.26);
+  border: 1px solid #b9b9b9;
+}
+
+.main_prayer_text .modal-content h2 {
+  font-size: 2em;
+  border-bottom: 1px solid #000;
+  padding: 5px 0;
+}
+
+.main_prayer_text .modal-content p {
+  font-size: 1.5em;
+  padding: 5px 0;
+}
+
+.main_prayer_text .close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.main_prayer_text .openModal {
+  cursor: pointer;
+}

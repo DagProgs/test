@@ -1,0 +1,97 @@
+/*Reklama*/
+.reklama {
+  padding: 0 15px;
+}
+
+.reklama .content {
+  font-size: 1.3em;
+  color: #11853e;
+  border: 1px solid #11853e;
+  padding: 0 5px;
+}
+
+.reklama img {
+  max-width: 100%;
+  height: auto;
+}
+
+/*iPhone*/
+.imodal {
+  position: fixed;
+  left: 0
+}
+
+.imodal {
+  display: none;
+  z-index: 100;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, .9);
+  z-index: 10;
+}
+
+.imodal-content {
+  margin: 15% auto;
+  padding: 20px;
+  width: 80%;
+  max-width: 600px;
+  background-color: #fff;
+  position: relative;
+}
+
+.iclose {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.iclose:focus,
+.iclose:hover {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+
+/*На весь экран*/
+.navesakran #overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #ffffff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.navesakran #content {
+  text-align: center;
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 800px;
+  box-shadow: 0 4px 20px #ffffff;
+}
+
+.navesakran h1 {
+  font-size: 2.5em;
+  margin-bottom: 20px;
+}
+
+.navesakran img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto 20px;
+}
+
+.navesakran p {
+  font-size: 1.2em;
+  line-height: 1.5;
+}
