@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="manifest" href="manifest.json" />
+  <title>Document</title>
+</head>
+<body>
+  <h1>Test</h1>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        <img src="screen.png" alt="Add to Home Screen">
+        <p>Для лучшего опыта использования, установите приложение на вашем устройстве. Нажмите кнопку "1-Поделиться" - "2-Добавить на главный экран" - "3-Добавить".</p>
+        <p id="browserWarning" style="display: none; color: red;">Рекомендуется открыть это приложение в Safari для лучшей работы.</p>
+    </div>
+</div>
+
+<script>
+    // Функция для открытия модального окна
+    function openModal() {
+        document.getElementById('myModal').style.display = "block";
+    }
+
+    // Функция для закрытия модального окна
+    function closeModal() {
+        document.getElementById('myModal').style.display = "none";
+        localStorage.setItem('appInstalled', 'true'); // Устанавливаем флаг после закрытия
+    }
+
+    // Проверка условий для отображения модального окна
+    if (!localStorage.getItem('appInstalled') && !window.matchMedia('(display-mode: standalone)').matches && /iPhone|iPod/i.test(navigator.userAgent)) {
+        openModal(); // Открываем модальное окно
+
+        // Проверка, какой браузер используется
+        const isSafari = /^((?!chrome|android).)*safari/i.test(navigator.userAgent);
+        if (!isSafari) {
+            document.getElementById('browserWarning').style.display = "block"; // Показываем предупреждение
+        }
+    }
+
+    // Закрытие модального окна при нажатии на кнопку "Close"
+    document.querySelector(".close").addEventListener("click", closeModal);
+
+    // Закрытие модального окна при клике вне его
+    window.addEventListener("click", function(event) {
+        const modal = document.getElementById('myModal');
+        if (event.target === modal) {
+            closeModal();
+        }
+    });
+</script>
+
+</body>
+</html>
